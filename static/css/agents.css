@@ -1,0 +1,524 @@
+body.agents-page {
+    margin: 0;
+    padding: 0;
+    background-color: #1a1e1e;
+}
+
+body.agents-page .main-content {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../images/digital-transformation-corporate-wallpaper.jpg') no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh;
+    padding: 0;
+}
+
+/* Ensure sidebar consistency */
+body.agents-page .sidebar {
+    background-color: #1a1e1e;
+}
+
+body.agents-page .nav-item.active {
+    background: rgba(45, 212, 191, 0.1);
+    color: #2dd4bf;
+}
+
+body.agents-page .nav-item:hover {
+    background: rgba(45, 212, 191, 0.05);
+}
+
+.agents-container {
+    padding: 2rem;
+    min-height: 100vh;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.agent-creation-area {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 2.5rem;
+    margin: 1rem 1rem 3rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.agent-creation-area h2 {
+    font-size: 1.75rem;
+    margin-bottom: 1.25rem;
+    letter-spacing: 0.025em;
+}
+
+.agent-creation-area p {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+    opacity: 0.9;
+}
+
+.create-agent-btn {
+    background: linear-gradient(135deg, #2dd4bf, #0ea5e9);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(45, 212, 191, 0.1);
+}
+
+.create-agent-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(45, 212, 191, 0.2);
+}
+
+.agents-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.agent-card {
+    background: rgba(26, 30, 30, 0.75);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 1.75rem;
+    border: 1px solid rgba(45, 212, 191, 0.2);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.agent-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #2dd4bf, #0ea5e9);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.agent-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(45, 212, 191, 0.4);
+    box-shadow: 0 8px 16px rgba(45, 212, 191, 0.1);
+}
+
+.agent-card:hover::before {
+    opacity: 1;
+}
+
+.agent-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+    color: #2dd4bf;
+    font-weight: 600;
+    letter-spacing: 0.025em;
+}
+
+.agent-card p {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+    opacity: 0.85;
+}
+
+.agent-card .card-tags {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.agent-card .module-tag {
+    display: flex;
+    align-items: center;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.agent-card .module-tag i {
+    margin-right: 0.75rem;
+    font-size: 1.1rem;
+}
+
+.agent-card .role-tag {
+    font-size: 0.85rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-weight: 500;
+}
+
+.agent-card .supervisor-tag {
+    background: linear-gradient(135deg, rgba(45, 212, 191, 0.2), rgba(14, 165, 233, 0.2));
+    border: 1px solid rgba(45, 212, 191, 0.3);
+    color: #2dd4bf;
+}
+
+.agent-card .agent-tag {
+    background: linear-gradient(135deg, rgba(74, 222, 128, 0.2), rgba(34, 197, 94, 0.2));
+    border: 1px solid rgba(74, 222, 128, 0.3);
+    color: #4ade80;
+}
+
+/* Integrated Agents Heading */
+.agents-container h2.text-2xl {
+    position: relative;
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+}
+
+.agents-container h2.text-2xl::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(45, 212, 191, 0.2), rgba(14, 165, 233, 0.2));
+}
+
+/* Module Icons Standardization */
+.agent-card .text-purple-400 i {
+    background: -webkit-linear-gradient(45deg, #c084fc, #8b5cf6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.agent-card .text-purple-400 i::before {
+    content: "\f5dc";  /* fa-brain */
+}
+
+.agent-card .text-blue-400 i {
+    background: -webkit-linear-gradient(45deg, #60a5fa, #3b82f6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.agent-card .text-blue-400 i::before {
+    content: "\f6d1";  /* fa-tools */
+}
+
+.agent-card .text-green-400 i {
+    background: -webkit-linear-gradient(45deg, #4ade80, #22c55e);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.agent-card .text-green-400 i::before {
+    content: "\f0c3";  /* fa-flask */
+}
+
+.agent-card .text-yellow-400 i {
+    background: -webkit-linear-gradient(45deg, #facc15, #eab308);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.agent-card .text-yellow-400 i::before {
+    content: "\f560";  /* fa-check-double */
+}
+
+/* Hypothesis Module Icon */
+.agent-card .text-green-400 i[data-module="hypothesis"]::before {
+    content: "\f6e3";  /* fa-lightbulb */
+}
+
+/* Supervisor indicator */
+.agent-card.supervisor::after {
+    content: 'Supervisor';
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 0.8rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    background: linear-gradient(135deg, rgba(45, 212, 191, 0.2), rgba(14, 165, 233, 0.2));
+    border: 1px solid rgba(45, 212, 191, 0.3);
+    color: #2dd4bf;
+    font-weight: 500;
+}
+
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+}
+
+.modal-content {
+    position: relative;
+    background: rgba(26, 30, 30, 0.85);
+    backdrop-filter: blur(12px);
+    margin: 3% auto;
+    padding: 2.5rem;
+    width: 85%;
+    max-width: 900px;
+    border-radius: 20px;
+    border: 1px solid rgba(45, 212, 191, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.close-modal {
+    position: absolute;
+    right: 2rem;
+    top: 2rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.7);
+    transition: all 0.3s ease;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.close-modal:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg);
+}
+
+.modal-tabs {
+    display: flex;
+    margin: 2rem 0;
+    border-bottom: 1px solid rgba(45, 212, 191, 0.2);
+    gap: 1rem;
+}
+
+.modal-tab {
+    padding: 0.75rem 1.5rem;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.modal-tab:hover {
+    color: #fff;
+}
+
+.modal-tab.active {
+    color: #2dd4bf;
+}
+
+.modal-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, #2dd4bf, #0ea5e9);
+}
+
+.tab-content {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Catalog Content Styling */
+#catalogTab .text-gray-300 {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#catalogTab h3 {
+    color: #2dd4bf;
+    font-size: 1.25rem;
+    margin-bottom: 1.25rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+#catalogTab h3::before {
+    content: '';
+    width: 3px;
+    height: 1.25rem;
+    background: linear-gradient(to bottom, #2dd4bf, #0ea5e9);
+    border-radius: 2px;
+}
+
+#catalogTab p {
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+#catalogTab ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2rem 0;
+}
+
+#catalogTab ul li {
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    transition: all 0.3s ease;
+}
+
+#catalogTab ul li:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateX(5px);
+}
+
+#catalogTab ul li::before {
+    content: '•';
+    color: #2dd4bf;
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+/* Configuration Tab Styling */
+#configTab select {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(45, 212, 191, 0.2);
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 1.5rem;
+}
+
+#configTab select:hover {
+    border-color: rgba(45, 212, 191, 0.4);
+}
+
+#configTab select:focus {
+    outline: none;
+    border-color: #2dd4bf;
+    box-shadow: 0 0 0 2px rgba(45, 212, 191, 0.1);
+}
+
+.code-editor {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 1.5rem;
+    border-radius: 12px;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid rgba(45, 212, 191, 0.2);
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 1.5rem;
+}
+
+.code-editor::-webkit-scrollbar {
+    width: 8px;
+}
+
+.code-editor::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+.code-editor::-webkit-scrollbar-thumb {
+    background: rgba(45, 212, 191, 0.3);
+    border-radius: 4px;
+}
+
+.code-editor::-webkit-scrollbar-thumb:hover {
+    background: rgba(45, 212, 191, 0.5);
+}
+
+/* Create Agent Modal Styling */
+.create-agent-form {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    color: #2dd4bf;
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+    display: block;
+}
+
+.form-group textarea {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(45, 212, 191, 0.2);
+    color: rgba(255, 255, 255, 0.9);
+    padding: 1rem;
+    border-radius: 8px;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+.form-group textarea:focus {
+    outline: none;
+    border-color: #2dd4bf;
+    box-shadow: 0 0 0 2px rgba(45, 212, 191, 0.1);
+}
+
+.format-select {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(45, 212, 191, 0.2);
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    max-width: 200px;
+}
+
+.format-select:hover {
+    border-color: rgba(45, 212, 191, 0.4);
+}
+
+.format-select:focus {
+    outline: none;
+    border-color: #2dd4bf;
+    box-shadow: 0 0 0 2px rgba(45, 212, 191, 0.1);
+}
+
+.format-select option {
+    background: #1a1e1e;
+    color: #fff;
+    padding: 0.75rem;
+} 

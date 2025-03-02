@@ -1,0 +1,313 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Research Innovation Center{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/research.css' %}">
+{% endblock %}
+
+{% block body_class %}research-page{% endblock %}
+
+{% block content %}
+<div class="research-container">
+    <!-- Research Projects List -->
+    <div class="research-projects">
+        <div class="projects-header">
+            <h2>Research Projects</h2>
+            <button class="create-research-btn" onclick="openCreateResearchModal()">
+                <i class="fas fa-plus"></i> New Research
+            </button>
+        </div>
+        
+        <div class="projects-list">
+            <!-- Research Project Cards -->
+            <div class="research-card">
+                <div class="research-card-header">
+                    <h3>AI in Healthcare</h3>
+                    <span class="status-badge in-progress">In Progress</span>
+                </div>
+                <p>Investigating the application of artificial intelligence in healthcare diagnostics and treatment planning.</p>
+                <div class="research-meta">
+                    <span><i class="fas fa-calendar"></i> Started: 2024-03-02</span>
+                    <span><i class="fas fa-clock"></i> Last Updated: 2h ago</span>
+                </div>
+                <div class="research-progress">
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 60%"></div>
+                    </div>
+                    <span class="progress-text">60% Complete</span>
+                </div>
+                <div class="research-actions">
+                    <button class="view-research-btn" onclick="viewResearch('research-id')">
+                        <i class="fas fa-eye"></i> View Details
+                    </button>
+                    <button class="track-progress-btn" onclick="trackProgress('research-id')">
+                        <i class="fas fa-chart-line"></i> Track Progress
+                    </button>
+                </div>
+            </div>
+
+            <div class="research-card">
+                <div class="research-card-header">
+                    <h3>Quantum Computing Applications</h3>
+                    <span class="status-badge in-progress">In Progress</span>
+                </div>
+                <p>Exploring quantum computing applications in cryptography and secure communication systems.</p>
+                <div class="research-meta">
+                    <span><i class="fas fa-calendar"></i> Started: 2024-02-15</span>
+                    <span><i class="fas fa-clock"></i> Last Updated: 1d ago</span>
+                </div>
+                <div class="research-progress">
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 85%"></div>
+                    </div>
+                    <span class="progress-text">85% Complete</span>
+                </div>
+                <div class="research-actions">
+                    <button class="view-research-btn" onclick="viewResearch('research-id-2')">
+                        <i class="fas fa-eye"></i> View Details
+                    </button>
+                    <button class="track-progress-btn" onclick="trackProgress('research-id-2')">
+                        <i class="fas fa-chart-line"></i> Track Progress
+                    </button>
+                </div>
+            </div>
+
+            <div class="research-card">
+                <div class="research-card-header">
+                    <h3>Renewable Energy Storage</h3>
+                    <span class="status-badge completed">Completed</span>
+                </div>
+                <p>Advanced research on next-generation battery technologies for renewable energy storage systems.</p>
+                <div class="research-meta">
+                    <span><i class="fas fa-calendar"></i> Started: 2023-11-01</span>
+                    <span><i class="fas fa-clock"></i> Completed: 2024-02-28</span>
+                </div>
+                <div class="research-progress">
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 100%"></div>
+                    </div>
+                    <span class="progress-text">100% Complete</span>
+                </div>
+                <div class="research-actions">
+                    <button class="view-research-btn" onclick="viewResearch('research-id-3')">
+                        <i class="fas fa-eye"></i> View Details
+                    </button>
+                    <button class="view-report-btn" onclick="viewReport('research-id-3')">
+                        <i class="fas fa-file-alt"></i> View Report
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Research Modal -->
+    <div id="createResearchModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Create New Research Project</h2>
+            <form id="researchForm" class="research-form">
+                <div class="form-group">
+                    <label for="researchTitle">Research Title</label>
+                    <input type="text" id="researchTitle" required placeholder="Enter a clear, concise title for your research">
+                </div>
+
+                <div class="form-group">
+                    <label for="researchGoals">Research Goals</label>
+                    <textarea id="researchGoals" rows="4" required placeholder="Describe the main objectives and goals of your research"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="researchContext">Context & Background</label>
+                    <textarea id="researchContext" rows="4" required placeholder="Provide context and background information about your research topic"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="researchScope">Scope & Limitations</label>
+                    <textarea id="researchScope" rows="4" required placeholder="Define the scope of your research and any limitations"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="researchHypotheses">Key Hypotheses</label>
+                    <div id="hypothesesList" class="hypotheses-list">
+                        <div class="hypothesis-item">
+                            <input type="text" class="hypothesis-input" placeholder="Enter a hypothesis">
+                            <button type="button" class="remove-hypothesis" onclick="removeHypothesis(this)">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button type="button" class="add-hypothesis-btn" onclick="addHypothesis()">
+                        <i class="fas fa-plus"></i> Add Hypothesis
+                    </button>
+                </div>
+
+                <div class="form-group">
+                    <label for="researchMethodology">Methodology</label>
+                    <textarea id="researchMethodology" rows="4" required placeholder="Describe your research methodology and approach"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="researchTimeline">Expected Timeline</label>
+                    <input type="text" id="researchTimeline" required placeholder="e.g., 3 months, 6 months, etc.">
+                </div>
+
+                <div class="form-group">
+                    <label for="researchResources">Required Resources</label>
+                    <textarea id="researchResources" rows="4" placeholder="List any specific resources, tools, or data needed"></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="preview-btn" onclick="previewResearch()">
+                        <i class="fas fa-eye"></i> Preview
+                    </button>
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-check"></i> Submit Research
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Research Preview Modal -->
+    <div id="researchPreviewModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Research Project Preview</h2>
+            <div class="preview-content">
+                <div class="preview-section">
+                    <h3>Title</h3>
+                    <p id="previewTitle"></p>
+                </div>
+                <div class="preview-section">
+                    <h3>Goals</h3>
+                    <p id="previewGoals"></p>
+                </div>
+                <div class="preview-section">
+                    <h3>Context & Background</h3>
+                    <p id="previewContext"></p>
+                </div>
+                <div class="preview-section">
+                    <h3>Scope & Limitations</h3>
+                    <p id="previewScope"></p>
+                </div>
+                <div class="preview-section">
+                    <h3>Key Hypotheses</h3>
+                    <ul id="previewHypotheses"></ul>
+                </div>
+                <div class="preview-section">
+                    <h3>Methodology</h3>
+                    <p id="previewMethodology"></p>
+                </div>
+                <div class="preview-section">
+                    <h3>Timeline</h3>
+                    <p id="previewTimeline"></p>
+                </div>
+                <div class="preview-section">
+                    <h3>Required Resources</h3>
+                    <p id="previewResources"></p>
+                </div>
+            </div>
+            <div class="preview-actions">
+                <button class="edit-btn" onclick="closePreviewAndEdit()">
+                    <i class="fas fa-edit"></i> Edit
+                </button>
+                <button class="submit-btn" onclick="submitResearch()">
+                    <i class="fas fa-check"></i> Submit
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Research Details Modal -->
+    <div id="researchDetailsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="research-details">
+                <div class="research-header">
+                    <h2 id="researchDetailsTitle"></h2>
+                    <span class="status-badge" id="researchDetailsStatus"></span>
+                </div>
+                
+                <div class="research-timeline">
+                    <div class="timeline-item active">
+                        <div class="timeline-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Research Initiation</h3>
+                            <p>Project setup and initial planning</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon">
+                            <i class="fas fa-flask"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Hypothesis Testing</h3>
+                            <p>Testing and validating hypotheses</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Data Analysis</h3>
+                            <p>Processing and analyzing research data</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon">
+                            <i class="fas fa-check-double"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Meta Review</h3>
+                            <p>Final review and synthesis</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="research-content">
+                    <div class="content-section">
+                        <h3>Research Details</h3>
+                        <div id="researchDetailsContent"></div>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h3>Agent Interactions</h3>
+                        <div class="agent-interactions">
+                            <div class="interaction-item">
+                                <div class="interaction-header">
+                                    <span class="agent-name">Research Agent</span>
+                                    <span class="interaction-time">2h ago</span>
+                                </div>
+                                <div class="interaction-content">
+                                    <p>Initial analysis of research goals and hypotheses</p>
+                                    <div class="interaction-output">
+                                        <pre>Analysis output...</pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Notification Toast -->
+<div id="notificationToast" class="notification-toast">
+    <div class="toast-content">
+        <i class="fas fa-check-circle"></i>
+        <span class="toast-message"></span>
+    </div>
+    <button class="toast-close">&times;</button>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/research.js' %}"></script>
+{% endblock %} 

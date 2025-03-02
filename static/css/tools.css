@@ -1,0 +1,393 @@
+body.tools-page {
+    margin: 0;
+    padding: 0;
+    background-color: #1a1e1e;
+}
+
+body.tools-page .main-content {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../images/digital-transformation-corporate-wallpaper.jpg') no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh;
+    padding: 0;
+}
+
+/* Ensure sidebar consistency */
+body.tools-page .sidebar {
+    background-color: #1a1e1e;
+}
+
+body.tools-page .nav-item.active {
+    background: rgba(45, 212, 191, 0.1);
+    color: #2dd4bf;
+}
+
+body.tools-page .nav-item:hover {
+    background: rgba(45, 212, 191, 0.05);
+}
+
+.tools-container {
+    padding: 2rem;
+    min-height: 100vh;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Tool Creation Area */
+.tool-creation-area {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 2.5rem;
+    margin: 1rem 1rem 3rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.tool-creation-area h2 {
+    font-size: 1.75rem;
+    margin-bottom: 1.25rem;
+    letter-spacing: 0.025em;
+}
+
+.tool-creation-area p {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+    opacity: 0.9;
+}
+
+.create-tool-btn {
+    background: linear-gradient(135deg, #2dd4bf, #0ea5e9);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(45, 212, 191, 0.1);
+}
+
+.create-tool-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(45, 212, 191, 0.2);
+}
+
+/* Search and Filter Section */
+.search-filter-section {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.search-bar {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.search-bar i {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 1rem 1rem 1rem 3rem;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(45, 212, 191, 0.2);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.search-bar input:focus {
+    outline: none;
+    border-color: #2dd4bf;
+    box-shadow: 0 0 0 2px rgba(45, 212, 191, 0.1);
+}
+
+.category-filters {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.category-btn {
+    padding: 0.5rem 1.25rem;
+    border-radius: 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.category-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+}
+
+.category-btn.active {
+    background: rgba(45, 212, 191, 0.2);
+    border-color: rgba(45, 212, 191, 0.3);
+    color: #2dd4bf;
+}
+
+/* Tools Grid */
+.tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 2rem;
+}
+
+.tool-card {
+    background: rgba(26, 30, 30, 0.75);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 1.75rem;
+    border: 1px solid rgba(45, 212, 191, 0.2);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.tool-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #2dd4bf, #0ea5e9);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.tool-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(45, 212, 191, 0.4);
+    box-shadow: 0 8px 16px rgba(45, 212, 191, 0.1);
+}
+
+.tool-card:hover::before {
+    opacity: 1;
+}
+
+.tool-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.tool-header h3 {
+    font-size: 1.25rem;
+    color: #2dd4bf;
+    font-weight: 600;
+    letter-spacing: 0.025em;
+}
+
+.category-tag {
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.category-tag.llm {
+    background: rgba(192, 132, 252, 0.2);
+    border: 1px solid rgba(192, 132, 252, 0.3);
+    color: #c084fc;
+}
+
+.category-tag.data {
+    background: rgba(96, 165, 250, 0.2);
+    border: 1px solid rgba(96, 165, 250, 0.3);
+    color: #60a5fa;
+}
+
+.category-tag.research {
+    background: rgba(74, 222, 128, 0.2);
+    border: 1px solid rgba(74, 222, 128, 0.3);
+    color: #4ade80;
+}
+
+.category-tag.analysis {
+    background: rgba(245, 158, 11, 0.2);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    color: #f59e0b;
+}
+
+.tool-card p {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    opacity: 0.85;
+}
+
+.tool-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.capability-tag {
+    padding: 0.25rem 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+}
+
+.modal-content {
+    position: relative;
+    background: rgba(26, 30, 30, 0.85);
+    backdrop-filter: blur(12px);
+    margin: 3% auto;
+    padding: 2.5rem;
+    width: 85%;
+    max-width: 900px;
+    border-radius: 20px;
+    border: 1px solid rgba(45, 212, 191, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.close-modal {
+    position: absolute;
+    right: 2rem;
+    top: 2rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.7);
+    transition: all 0.3s ease;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.close-modal:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg);
+}
+
+/* Create Tool Form */
+.create-tool-form {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    color: #2dd4bf;
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+    display: block;
+}
+
+.form-group textarea {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(45, 212, 191, 0.2);
+    color: rgba(255, 255, 255, 0.9);
+    padding: 1rem;
+    border-radius: 8px;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+.form-group textarea:focus {
+    outline: none;
+    border-color: #2dd4bf;
+    box-shadow: 0 0 0 2px rgba(45, 212, 191, 0.1);
+}
+
+.format-select {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(45, 212, 191, 0.2);
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    max-width: 200px;
+}
+
+.format-select:hover {
+    border-color: rgba(45, 212, 191, 0.4);
+}
+
+.format-select:focus {
+    outline: none;
+    border-color: #2dd4bf;
+    box-shadow: 0 0 0 2px rgba(45, 212, 191, 0.1);
+}
+
+.format-select option {
+    background: #1a1e1e;
+    color: #fff;
+    padding: 0.75rem;
+}
+
+.code-editor {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 1.5rem;
+    border-radius: 12px;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid rgba(45, 212, 191, 0.2);
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 1.5rem;
+}
+
+.code-editor::-webkit-scrollbar {
+    width: 8px;
+}
+
+.code-editor::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+.code-editor::-webkit-scrollbar-thumb {
+    background: rgba(45, 212, 191, 0.3);
+    border-radius: 4px;
+}
+
+.code-editor::-webkit-scrollbar-thumb:hover {
+    background: rgba(45, 212, 191, 0.5);
+} 

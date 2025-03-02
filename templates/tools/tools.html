@@ -1,0 +1,188 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Tools{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/tools.css' %}">
+{% endblock %}
+
+{% block body_class %}tools-page{% endblock %}
+
+{% block content %}
+<div class="tools-container">
+    <!-- Tool Creation Area -->
+    <div class="tool-creation-area">
+        <h2>Create New Tool</h2>
+        <p>Design and implement custom tools to enhance your research and analysis capabilities. Create tools for data processing, analysis, or any other specific needs.</p>
+        <button class="create-tool-btn" onclick="document.getElementById('createToolModal').style.display='block'">
+            <i class="fas fa-plus"></i> Create New Tool
+        </button>
+    </div>
+
+    <!-- Search and Filter Section -->
+    <div class="search-filter-section">
+        <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search tools by name, description, or capabilities...">
+        </div>
+        <div class="category-filters">
+            <button class="category-btn active" data-category="all">All Tools</button>
+            <button class="category-btn" data-category="llm">LLM Tools</button>
+            <button class="category-btn" data-category="data">Data Processing</button>
+            <button class="category-btn" data-category="research">Research Tools</button>
+            <button class="category-btn" data-category="analysis">Analysis Tools</button>
+        </div>
+    </div>
+
+    <!-- Tools Grid -->
+    <div class="tools-grid">
+        <!-- LLM Tools -->
+        <div class="tool-card" data-category="llm">
+            <div class="tool-header">
+                <h3>Text Summarizer</h3>
+                <span class="category-tag llm">LLM</span>
+            </div>
+            <p>Advanced text summarization tool using state-of-the-art language models to generate concise, accurate summaries of long documents.</p>
+            <div class="tool-tags">
+                <span class="capability-tag">Text Processing</span>
+                <span class="capability-tag">Summarization</span>
+                <span class="capability-tag">NLP</span>
+            </div>
+        </div>
+
+        <div class="tool-card" data-category="llm">
+            <div class="tool-header">
+                <h3>Code Generator</h3>
+                <span class="category-tag llm">LLM</span>
+            </div>
+            <p>AI-powered code generation tool that creates high-quality code snippets and implementations based on natural language descriptions.</p>
+            <div class="tool-tags">
+                <span class="capability-tag">Code Generation</span>
+                <span class="capability-tag">Programming</span>
+                <span class="capability-tag">AI</span>
+            </div>
+        </div>
+
+        <!-- Data Processing Tools -->
+        <div class="tool-card" data-category="data">
+            <div class="tool-header">
+                <h3>Data Cleaner</h3>
+                <span class="category-tag data">Data Processing</span>
+            </div>
+            <p>Comprehensive data cleaning and preprocessing tool that handles missing values, outliers, and data formatting issues.</p>
+            <div class="tool-tags">
+                <span class="capability-tag">Data Cleaning</span>
+                <span class="capability-tag">Preprocessing</span>
+                <span class="capability-tag">Validation</span>
+            </div>
+        </div>
+
+        <div class="tool-card" data-category="data">
+            <div class="tool-header">
+                <h3>Data Transformer</h3>
+                <span class="category-tag data">Data Processing</span>
+            </div>
+            <p>Powerful data transformation tool that converts data between different formats and structures while maintaining data integrity.</p>
+            <div class="tool-tags">
+                <span class="capability-tag">Data Transformation</span>
+                <span class="capability-tag">Format Conversion</span>
+                <span class="capability-tag">ETL</span>
+            </div>
+        </div>
+
+        <!-- Research Tools -->
+        <div class="tool-card" data-category="research">
+            <div class="tool-header">
+                <h3>Literature Search</h3>
+                <span class="category-tag research">Research</span>
+            </div>
+            <p>Advanced literature search tool that helps find relevant academic papers and research documents across multiple databases.</p>
+            <div class="tool-tags">
+                <span class="capability-tag">Literature Search</span>
+                <span class="capability-tag">Academic Research</span>
+                <span class="capability-tag">Database Query</span>
+            </div>
+        </div>
+
+        <div class="tool-card" data-category="research">
+            <div class="tool-header">
+                <h3>Citation Manager</h3>
+                <span class="category-tag research">Research</span>
+            </div>
+            <p>Comprehensive citation management tool that helps organize, format, and export citations in various academic styles.</p>
+            <div class="tool-tags">
+                <span class="capability-tag">Citation Management</span>
+                <span class="capability-tag">Bibliography</span>
+                <span class="capability-tag">Reference Formatting</span>
+            </div>
+        </div>
+
+        <!-- Analysis Tools -->
+        <div class="tool-card" data-category="analysis">
+            <div class="tool-header">
+                <h3>Statistical Analyzer</h3>
+                <span class="category-tag analysis">Analysis</span>
+            </div>
+            <p>Advanced statistical analysis tool that performs complex statistical tests and generates detailed reports and visualizations.</p>
+            <div class="tool-tags">
+                <span class="capability-tag">Statistical Analysis</span>
+                <span class="capability-tag">Data Visualization</span>
+                <span class="capability-tag">Reporting</span>
+            </div>
+        </div>
+
+        <div class="tool-card" data-category="analysis">
+            <div class="tool-header">
+                <h3>Trend Analyzer</h3>
+                <span class="category-tag analysis">Analysis</span>
+            </div>
+            <p>Sophisticated trend analysis tool that identifies patterns, correlations, and trends in time-series and sequential data.</p>
+            <div class="tool-tags">
+                <span class="capability-tag">Trend Analysis</span>
+                <span class="capability-tag">Pattern Recognition</span>
+                <span class="capability-tag">Time Series</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Create Tool Modal -->
+<div id="createToolModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h2>Create New Tool</h2>
+        <form class="create-tool-form">
+            <div class="form-group">
+                <label for="toolDescription">Tool Description</label>
+                <textarea id="toolDescription" rows="4" placeholder="Describe your tool's purpose and functionality..."></textarea>
+            </div>
+            <div class="form-group">
+                <label for="toolCategory">Category</label>
+                <select id="toolCategory" class="format-select">
+                    <option value="llm">LLM Tools</option>
+                    <option value="data">Data Processing</option>
+                    <option value="research">Research Tools</option>
+                    <option value="analysis">Analysis Tools</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="configFormat">Configuration Format</label>
+                <select id="configFormat" class="format-select">
+                    <option value="json">JSON</option>
+                    <option value="python">Python</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Configuration</label>
+                <div class="code-editor" contenteditable="true"></div>
+            </div>
+            <button type="submit" class="create-tool-btn">Create Tool</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/tools.js' %}"></script>
+{% endblock %} 

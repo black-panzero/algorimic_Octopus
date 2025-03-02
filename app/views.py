@@ -80,11 +80,11 @@ def chat(request):
 
 @login_required
 def agents(request):
-    return render(request, 'main/agents.html')
+    return render(request, 'agents/agents.html')
 
 @login_required
 def tools(request):
-    return render(request, 'main/tools.html')
+    return render(request, 'tools/tools.html')
 
 @login_required
 def settings(request):

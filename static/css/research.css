@@ -1,0 +1,607 @@
+body.research-page {
+    margin: 0;
+    padding: 0;
+    background-color: #1a1e1e;
+}
+
+body.research-page .main-content {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../images/digital-transformation-corporate-wallpaper.jpg') no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh;
+    padding: 0;
+}
+
+/* Ensure sidebar consistency */
+body.research-page .sidebar {
+    background-color: #1a1e1e;
+}
+
+body.research-page .nav-item.active {
+    background: rgba(45, 212, 191, 0.1);
+    color: #2dd4bf;
+}
+
+body.research-page .nav-item:hover {
+    background: rgba(45, 212, 191, 0.05);
+}
+
+.research-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Research Projects List */
+.research-projects {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.projects-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.projects-header h2 {
+    font-size: 1.75rem;
+    color: #2dd4bf;
+    margin: 0;
+}
+
+.projects-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    padding: 1rem 0;
+}
+
+.create-research-btn {
+    background-color: #1976d2;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    transition: background-color 0.2s ease;
+}
+
+.create-research-btn:hover {
+    background-color: #1565c0;
+}
+
+/* Research Card */
+.research-card {
+    background: rgba(26, 30, 30, 0.75);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    padding: 1.5rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid rgba(45, 212, 191, 0.2);
+}
+
+.research-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    border-color: rgba(45, 212, 191, 0.3);
+}
+
+.research-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.research-card-header h3 {
+    margin: 0;
+    color: #2dd4bf;
+    font-size: 1.25rem;
+}
+
+.status-badge {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+}
+
+.status-badge.in-progress {
+    background: rgba(245, 158, 11, 0.2);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    color: #f59e0b;
+}
+
+.status-badge.completed {
+    background: rgba(46, 125, 50, 0.2);
+    border: 1px solid rgba(46, 125, 50, 0.3);
+    color: #4caf50;
+}
+
+.research-card p {
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 1.25rem;
+    line-height: 1.5;
+}
+
+.research-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.875rem;
+}
+
+.research-meta span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.research-meta i {
+    color: #2dd4bf;
+}
+
+.research-progress {
+    margin-bottom: 1.5rem;
+}
+
+.progress-bar {
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.progress {
+    height: 100%;
+    background: linear-gradient(90deg, #2dd4bf, #0ea5e9);
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+.progress-text {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.research-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.research-actions button {
+    flex: 1;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: background-color 0.2s ease;
+}
+
+.view-research-btn {
+    background: rgba(45, 212, 191, 0.2);
+    border: 1px solid rgba(45, 212, 191, 0.3);
+    color: #2dd4bf;
+}
+
+.track-progress-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.view-report-btn {
+    background: rgba(46, 125, 50, 0.2);
+    border: 1px solid rgba(46, 125, 50, 0.3);
+    color: #4caf50;
+}
+
+.research-actions button:hover {
+    opacity: 0.8;
+    transform: translateY(-2px);
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+}
+
+.modal-content {
+    position: relative;
+    background: rgba(26, 30, 30, 0.85);
+    backdrop-filter: blur(12px);
+    margin: 3% auto;
+    padding: 2.5rem;
+    width: 85%;
+    max-width: 900px;
+    border-radius: 20px;
+    border: 1px solid rgba(45, 212, 191, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.close-modal {
+    position: absolute;
+    right: 2rem;
+    top: 2rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.7);
+    transition: all 0.3s ease;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.close-modal:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg);
+}
+
+/* Research Form */
+.research-form {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    color: #2dd4bf;
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(45, 212, 191, 0.2);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #2dd4bf;
+    box-shadow: 0 0 0 2px rgba(45, 212, 191, 0.1);
+}
+
+/* Hypotheses List */
+.hypotheses-list {
+    margin-bottom: 1rem;
+}
+
+.hypothesis-item {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.hypothesis-input {
+    flex: 1;
+}
+
+.remove-hypothesis {
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.remove-hypothesis:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+.add-hypothesis-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    border: 1px dashed rgba(45, 212, 191, 0.3);
+    background: rgba(45, 212, 191, 0.1);
+    color: #2dd4bf;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.add-hypothesis-btn:hover {
+    background: rgba(45, 212, 191, 0.2);
+    border-style: solid;
+}
+
+/* Form Actions */
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 2rem;
+}
+
+.preview-btn,
+.submit-btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.preview-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+.preview-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.submit-btn {
+    background: linear-gradient(135deg, #2dd4bf, #0ea5e9);
+    border: none;
+    color: white;
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(45, 212, 191, 0.2);
+}
+
+/* Research Preview */
+.preview-content {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.preview-section {
+    margin-bottom: 1.5rem;
+}
+
+.preview-section h3 {
+    color: #2dd4bf;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.preview-section p {
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.6;
+}
+
+.preview-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.preview-section ul li {
+    color: rgba(255, 255, 255, 0.9);
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.preview-section ul li:last-child {
+    border-bottom: none;
+}
+
+/* Research Timeline */
+.research-timeline {
+    position: relative;
+    padding: 2rem 0;
+    margin-bottom: 2rem;
+}
+
+.research-timeline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 2rem;
+    width: 2px;
+    height: 100%;
+    background: rgba(45, 212, 191, 0.2);
+}
+
+.timeline-item {
+    position: relative;
+    padding-left: 4rem;
+    margin-bottom: 2rem;
+}
+
+.timeline-item:last-child {
+    margin-bottom: 0;
+}
+
+.timeline-icon {
+    position: absolute;
+    left: 1.5rem;
+    width: 1rem;
+    height: 1rem;
+    background: rgba(45, 212, 191, 0.2);
+    border: 2px solid rgba(45, 212, 191, 0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #2dd4bf;
+}
+
+.timeline-item.active .timeline-icon {
+    background: #2dd4bf;
+    border-color: #2dd4bf;
+    color: #1a1e1e;
+}
+
+.timeline-content h3 {
+    color: #2dd4bf;
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+}
+
+.timeline-content p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+}
+
+/* Agent Interactions */
+.agent-interactions {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.interaction-item {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.interaction-item:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.interaction-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.agent-name {
+    color: #2dd4bf;
+    font-weight: 500;
+}
+
+.interaction-time {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.9rem;
+}
+
+.interaction-content p {
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 1rem;
+}
+
+.interaction-output {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    padding: 1rem;
+    overflow-x: auto;
+}
+
+.interaction-output pre {
+    color: rgba(255, 255, 255, 0.9);
+    font-family: 'Fira Code', monospace;
+    font-size: 0.9rem;
+    margin: 0;
+    white-space: pre-wrap;
+}
+
+/* Notification Toast */
+.notification-toast {
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+    background: rgba(26, 30, 30, 0.95);
+    border: 1px solid rgba(45, 212, 191, 0.2);
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transform: translateX(120%);
+    transition: transform 0.3s ease;
+    z-index: 1100;
+}
+
+.notification-toast.show {
+    transform: translateX(0);
+}
+
+.toast-content {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.toast-content i {
+    color: #2dd4bf;
+    font-size: 1.25rem;
+}
+
+.toast-message {
+    color: #fff;
+    font-size: 0.95rem;
+}
+
+.toast-close {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    font-size: 1.25rem;
+    padding: 0.25rem;
+    transition: color 0.3s ease;
+}
+
+.toast-close:hover {
+    color: #fff;
+} 

@@ -1,0 +1,268 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Agents - Algorimic{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/agents.css' %}">
+{% endblock %}
+
+{% block body_class %}agents-page{% endblock %}
+
+{% block content %}
+<div class="agents-container">
+    <!-- Agent Creation Area -->
+    <div class="agent-creation-area">
+        <h2 class="text-2xl font-bold text-white">Create New Agent</h2>
+        <p class="text-gray-300">Design and deploy custom agents for your specific needs. Our AI-powered platform helps you build, test, and deploy agents tailored to your research requirements.</p>
+        <button class="create-agent-btn" onclick="openCreateAgentModal()">
+            <i class="fas fa-plus mr-2"></i>Create New Agent
+        </button>
+    </div>
+
+    <!-- Integrated Agents Section -->
+    <h2 class="text-2xl font-bold text-white mb-6">Integrated Agents</h2>
+
+    <!-- Agents Grid -->
+    <div class="agents-grid">
+        <!-- Meta-Orchestrator Agents -->
+        <div class="agent-card" onclick="openAgentModal('meta-orchestrator')">
+            <h3>Meta Orchestrator</h3>
+            <p class="text-gray-300">Manages system-wide coordination and research goals.</p>
+            <div class="card-tags">
+                <div class="module-tag text-purple-400">
+                    <i class="fas"></i>Core Module
+                </div>
+                <div class="role-tag supervisor-tag">Supervisor</div>
+            </div>
+        </div>
+
+        <!-- Tool and Agent Builder Supervisor -->
+        <div class="agent-card" onclick="openAgentModal('builder-supervisor')">
+            <h3>Tool & Agent Builder Supervisor</h3>
+            <p class="text-gray-300">Oversees and coordinates the development and optimization of new tools and agents.</p>
+            <div class="card-tags">
+                <div class="module-tag text-blue-400">
+                    <i class="fas"></i>Builder Module
+                </div>
+                <div class="role-tag supervisor-tag">Supervisor</div>
+            </div>
+        </div>
+
+        <!-- Tool and Agent Builder Agents -->
+        <div class="agent-card" onclick="openAgentModal('system-analyst')">
+            <h3>System Analyst & Designer</h3>
+            <p class="text-gray-300">Designs new agents and tools based on requirements.</p>
+            <div class="card-tags">
+                <div class="module-tag text-blue-400">
+                    <i class="fas"></i>Builder Module
+                </div>
+                <div class="role-tag agent-tag">Agent</div>
+            </div>
+        </div>
+
+        <div class="agent-card" onclick="openAgentModal('prompt-engineer')">
+            <h3>Prompt Engineer</h3>
+            <p class="text-gray-300">Crafts and optimizes prompts for LLM-powered agents.</p>
+            <div class="card-tags">
+                <div class="module-tag text-blue-400">
+                    <i class="fas"></i>Builder Module
+                </div>
+                <div class="role-tag agent-tag">Agent</div>
+            </div>
+        </div>
+
+        <div class="agent-card" onclick="openAgentModal('coder-agent')">
+            <h3>Coder</h3>
+            <p class="text-gray-300">Implements and tests new agents and tools.</p>
+            <div class="card-tags">
+                <div class="module-tag text-blue-400">
+                    <i class="fas"></i>Builder Module
+                </div>
+                <div class="role-tag agent-tag">Agent</div>
+            </div>
+        </div>
+
+        <!-- Literature and Novelty Supervisor -->
+        <div class="agent-card" onclick="openAgentModal('literature-supervisor')">
+            <h3>Literature & Novelty Supervisor</h3>
+            <p class="text-gray-300">Coordinates literature review and research novelty assessment processes.</p>
+            <div class="card-tags">
+                <div class="module-tag text-green-400">
+                    <i class="fas"></i>Research Module
+                </div>
+                <div class="role-tag supervisor-tag">Supervisor</div>
+            </div>
+        </div>
+
+        <!-- Research Module Agents -->
+        <div class="agent-card" onclick="openAgentModal('literature-agent')">
+            <h3>Literature Searcher</h3>
+            <p class="text-gray-300">Performs comprehensive literature reviews and analysis.</p>
+            <div class="card-tags">
+                <div class="module-tag text-green-400">
+                    <i class="fas"></i>Research Module
+                </div>
+                <div class="role-tag agent-tag">Agent</div>
+            </div>
+        </div>
+
+        <div class="agent-card" onclick="openAgentModal('proximity-checker')">
+            <h3>Proximity Checker</h3>
+            <p class="text-gray-300">Verifies research novelty and identifies gaps.</p>
+            <div class="card-tags">
+                <div class="module-tag text-green-400">
+                    <i class="fas"></i>Research Module
+                </div>
+                <div class="role-tag agent-tag">Agent</div>
+            </div>
+        </div>
+
+        <!-- Hypothesis Management Supervisor -->
+        <div class="agent-card" onclick="openAgentModal('hypothesis-supervisor')">
+            <h3>Hypothesis Management Supervisor</h3>
+            <p class="text-gray-300">Oversees the generation, review, ranking, and evolution of research hypotheses.</p>
+            <div class="card-tags">
+                <div class="module-tag text-green-400">
+                    <i class="fas" data-module="hypothesis"></i>Hypothesis Module
+                </div>
+                <div class="role-tag supervisor-tag">Supervisor</div>
+            </div>
+        </div>
+
+        <div class="agent-card" onclick="openAgentModal('hypothesis-agent')">
+            <h3>Hypothesis Generator</h3>
+            <p class="text-gray-300">Generates and refines research hypotheses.</p>
+            <div class="card-tags">
+                <div class="module-tag text-green-400">
+                    <i class="fas" data-module="hypothesis"></i>Hypothesis Module
+                </div>
+                <div class="role-tag agent-tag">Agent</div>
+            </div>
+        </div>
+
+        <div class="agent-card" onclick="openAgentModal('hypothesis-reviewer')">
+            <h3>Hypothesis Reviewer</h3>
+            <p class="text-gray-300">Reviews and validates generated hypotheses.</p>
+            <div class="card-tags">
+                <div class="module-tag text-green-400">
+                    <i class="fas" data-module="hypothesis"></i>Hypothesis Module
+                </div>
+                <div class="role-tag agent-tag">Agent</div>
+            </div>
+        </div>
+
+        <div class="agent-card" onclick="openAgentModal('hypothesis-ranker')">
+            <h3>Hypothesis Ranker</h3>
+            <p class="text-gray-300">Prioritizes hypotheses based on potential impact.</p>
+            <div class="card-tags">
+                <div class="module-tag text-green-400">
+                    <i class="fas" data-module="hypothesis"></i>Hypothesis Module
+                </div>
+                <div class="role-tag agent-tag">Agent</div>
+            </div>
+        </div>
+
+        <div class="agent-card" onclick="openAgentModal('hypothesis-evolver')">
+            <h3>Hypothesis Evolver</h3>
+            <p class="text-gray-300">Evolves and refines hypotheses over time.</p>
+            <div class="card-tags">
+                <div class="module-tag text-green-400">
+                    <i class="fas" data-module="hypothesis"></i>Hypothesis Module
+                </div>
+                <div class="role-tag agent-tag">Agent</div>
+            </div>
+        </div>
+
+        <!-- Meta Review Supervisor -->
+        <div class="agent-card" onclick="openAgentModal('review-supervisor')">
+            <h3>Meta Review Supervisor</h3>
+            <p class="text-gray-300">Coordinates and oversees the meta-review process of research findings.</p>
+            <div class="card-tags">
+                <div class="module-tag text-yellow-400">
+                    <i class="fas"></i>Review Module
+                </div>
+                <div class="role-tag supervisor-tag">Supervisor</div>
+            </div>
+        </div>
+
+        <div class="agent-card" onclick="openAgentModal('meta-reviewer')">
+            <h3>Meta Reviewer</h3>
+            <p class="text-gray-300">Reviews and validates research findings.</p>
+            <div class="card-tags">
+                <div class="module-tag text-yellow-400">
+                    <i class="fas"></i>Review Module
+                </div>
+                <div class="role-tag agent-tag">Agent</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Create Agent Modal -->
+<div id="createAgentModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeModal('createAgentModal')">&times;</span>
+        <h2 class="text-2xl font-bold text-white mb-4">Create New Agent</h2>
+        <div class="create-agent-form">
+            <div class="form-group">
+                <label class="block text-gray-300 mb-2">Agent Description</label>
+                <textarea class="w-full bg-gray-800 text-white p-3 rounded-lg" rows="6" 
+                          placeholder="Describe the agent you want to create..."></textarea>
+            </div>
+            <div class="form-group">
+                <label class="block text-gray-300 mb-2">Configuration Format</label>
+                <select class="format-select" onchange="switchCreateConfigFormat(this.value)">
+                    <option value="json">JSON</option>
+                    <option value="python">Python</option>
+                </select>
+            </div>
+            <div class="code-editor" id="createConfigEditor"></div>
+            <button class="create-agent-btn mt-4">
+                <i class="fas fa-plus mr-2"></i>Build Agent
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Agent Details Modal -->
+<div id="agentDetailsModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeModal('agentDetailsModal')">&times;</span>
+        <h2 class="text-2xl font-bold text-white mb-4" id="agentModalTitle">Agent Details</h2>
+        
+        <div class="modal-tabs">
+            <div class="modal-tab active" onclick="switchTab('catalog')">Catalog</div>
+            <div class="modal-tab" onclick="switchTab('config')">Configuration</div>
+        </div>
+
+        <div id="catalogTab" class="tab-content active">
+            <div class="text-gray-300">
+                <h3 class="text-xl font-bold mb-3">Description</h3>
+                <p class="mb-4" id="agentDescription"></p>
+                
+                <h3 class="text-xl font-bold mb-3">Capabilities</h3>
+                <ul class="list-disc pl-5 mb-4" id="agentCapabilities"></ul>
+                
+                <h3 class="text-xl font-bold mb-3">Integration</h3>
+                <p class="mb-4" id="agentIntegration"></p>
+            </div>
+        </div>
+
+        <div id="configTab" class="tab-content">
+            <div class="mb-4">
+                <select class="format-select" onchange="switchConfigFormat(this.value)">
+                    <option value="json">JSON</option>
+                    <option value="python">Python</option>
+                </select>
+            </div>
+            <div class="code-editor" id="configEditor"></div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/agents.js' %}"></script>
+{% endblock %} 
