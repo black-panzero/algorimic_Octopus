@@ -1,0 +1,217 @@
+@import 'base.css';
+
+/* Override the background for auth pages */
+body::before {
+    background-image: url('../images/7475145_3672377.jpg');
+    opacity: 0.9;
+}
+
+.auth-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    
+}
+
+
+
+.auth-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-radius: 15px;
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 8px 32px var(--glass-shadow);
+    transition: all 0.3s ease;
+}
+
+.auth-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 48px var(--glass-shadow);
+    border-color: var(--accent);
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.auth-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, var(--white) 0%, var(--accent-light) 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+.auth-subtitle {
+    color: var(--white);
+    opacity: 0.9;
+}
+
+.auth-form {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-radius: 15px;
+    padding: 3rem 3rem;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 8px 32px var(--glass-shadow);
+    transition: all 0.3s ease;
+}
+
+.form-group {
+    margin-bottom: 1.8rem;
+    padding: 0 0.5rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.9rem 1.2rem;
+    margin-top: 0.5rem;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--white);
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: var(--charcoal);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    color: var(--white);
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px var(--overlay-light);
+}
+
+.auth-button {
+    width: 100%;
+    padding: 0.75rem;
+    background: var(--accent);
+    color: var(--white);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.auth-button:hover {
+    background: var(--accent-light);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px var(--glass-shadow);
+}
+
+.auth-links {
+    margin-top: 1.5rem;
+    text-align: center;
+}
+
+.auth-link {
+    color: var(--accent-light);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.auth-link:hover {
+    color: var(--white);
+    text-shadow: 0 0 8px var(--glass-shadow);
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 1.5rem 0;
+    color: var(--white);
+    opacity: 0.5;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.divider::before {
+    margin-right: 0.5rem;
+}
+
+.divider::after {
+    margin-left: 0.5rem;
+}
+
+.social-buttons {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.social-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem;
+    background: var(--charcoal);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    color: var(--white);
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.social-button:hover {
+    background: var(--charcoal-light);
+    transform: translateY(-2px);
+}
+
+.social-icon {
+    margin-right: 0.75rem;
+    font-size: 1.2rem;
+}
+
+.error-message {
+    background: rgba(255, 0, 0, 0.1);
+    border: 1px solid rgba(255, 0, 0, 0.2);
+    color: #ff4444;
+    padding: 0.8rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.success-message {
+    background: rgba(0, 255, 0, 0.1);
+    border: 1px solid rgba(0, 255, 0, 0.2);
+    color: #00ff00;
+    padding: 0.8rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.button-full {
+    width: 100%;
+} 

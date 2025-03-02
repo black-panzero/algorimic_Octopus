@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Algorimic</title>
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-form glass-container">
+            <div class="auth-header">
+                <h1 class="auth-title">Create Account</h1>
+                <p>Join Algorimic and explore the future of AI</p>
+            </div>
+
+            {% if form.errors %}
+            <div class="error-message">
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        {{ error }}<br>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <form method="post" action="{% url 'signup' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password1">Password</label>
+                    <input type="password" id="password1" name="password1" required>
+                </div>
+                <div class="form-group">
+                    <label for="password2">Confirm Password</label>
+                    <input type="password" id="password2" name="password2" required>
+                </div>
+                <button type="submit" class="button button-primary button-full">Create Account</button>
+            </form>
+
+            <div class="auth-links">
+                <p>Already have an account? <a href="{% url 'login' %}">Sign In</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

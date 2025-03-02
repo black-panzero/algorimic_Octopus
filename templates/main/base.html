@@ -1,0 +1,205 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Algorimic{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <a href="/" class="logo">Algorimic</a>
+            <button class="toggle-sidebar">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+        </div>
+        <nav class="nav-items">
+            <a href="{% url 'dashboard' %}" class="nav-item {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+                <i class="fas fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="{% url 'research' %}" class="nav-item {% if request.resolver_match.url_name == 'research' %}active{% endif %}">
+                <i class="fas fa-microscope"></i>
+                <span>Research</span>
+            </a>
+            <a href="{% url 'chat' %}" class="nav-item {% if request.resolver_match.url_name == 'chat' %}active{% endif %}">
+                <i class="fas fa-comments"></i>
+                <span>Chat</span>
+            </a>
+            <a href="{% url 'agents' %}" class="nav-item {% if request.resolver_match.url_name == 'agents' %}active{% endif %}">
+                <i class="fas fa-robot"></i>
+                <span>Agents</span>
+            </a>
+            <a href="{% url 'tools' %}" class="nav-item {% if request.resolver_match.url_name == 'tools' %}active{% endif %}">
+                <i class="fas fa-tools"></i>
+                <span>Tools</span>
+            </a>
+            <a href="{% url 'settings' %}" class="nav-item {% if request.resolver_match.url_name == 'settings' %}active{% endif %}">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+        </nav>
+        
+        <!-- User profile at bottom of sidebar -->
+        <div class="user-profile">
+            <div class="user-info-container">
+                <div class="user-avatar">
+                    <img src="https://ui-avatars.com/api/?name={{ request.user.username }}&background=2DD4BF&color=1A1E1E&bold=true" alt="{{ request.user.username }} Avatar">
+                </div>
+                <div class="user-info">
+                    <div class="user-name">{{ request.user.username }}</div>
+                    <div class="user-role">{% if request.user.is_staff %}Admin{% else %}User{% endif %}</div>
+                </div>
+            </div>
+            <a href="{% url 'logout' %}" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Chat Bubble -->
+    <div class="chat-bubble" id="chatBubble">
+        <i class="fas fa-comment-dots"></i>
+    </div>
+
+    <!-- Chat Window -->
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header">
+            <div class="chat-title">AI Assistant</div>
+            <div class="chat-controls">
+                <button class="chat-control-btn" id="expandChat">
+                    <i class="fas fa-expand"></i>
+                </button>
+                <button class="chat-control-btn" id="closeChat">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <!-- Messages will be dynamically added here -->
+        </div>
+        <div class="chat-input">
+            <input type="text" placeholder="Type your message..." id="messageInput">
+            <button id="sendMessage">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Sidebar Toggle
+        const sidebar = document.querySelector('.sidebar');
+        const toggleBtn = document.querySelector('.toggle-sidebar');
+        let isLocked = false;
+
+        // Function to update icon
+        function updateIcon(isLocked) {
+            const icon = toggleBtn.querySelector('i');
+            if (isLocked) {
+                icon.classList.remove('fa-chevron-right');
+                icon.classList.add('fa-chevron-left');
+            } else {
+                icon.classList.remove('fa-chevron-left');
+                icon.classList.add('fa-chevron-right');
+            }
+        }
+
+        // Handle hover events
+        sidebar.addEventListener('mouseenter', function() {
+            if (!isLocked) {
+                sidebar.classList.remove('collapsed');
+                updateIcon(isLocked);
+            }
+        });
+
+        sidebar.addEventListener('mouseleave', function() {
+            if (!isLocked) {
+                sidebar.classList.add('collapsed');
+                updateIcon(isLocked);
+            }
+        });
+
+        // Handle toggle button click
+        toggleBtn.addEventListener('click', function() {
+            isLocked = !isLocked;
+            if (isLocked) {
+                sidebar.classList.remove('collapsed');
+                updateIcon(isLocked);
+            } else {
+                updateIcon(isLocked);
+            }
+        });
+
+        // Initialize sidebar in collapsed state
+        if (!isLocked) {
+            sidebar.classList.add('collapsed');
+            updateIcon(isLocked);
+        }
+
+        // Chat Functionality
+        const chatBubble = document.getElementById('chatBubble');
+        const chatWindow = document.getElementById('chatWindow');
+        const closeChat = document.getElementById('closeChat');
+        const expandChat = document.getElementById('expandChat');
+        const messageInput = document.getElementById('messageInput');
+        const sendMessage = document.getElementById('sendMessage');
+        const chatMessages = document.getElementById('chatMessages');
+
+        expandChat.addEventListener('click', function() {
+            window.location.href = "{% url 'chat' %}";
+        });
+
+        // Handle chat window minimize
+        const minimizeChat = document.getElementById('closeChat');
+        minimizeChat.addEventListener('click', function() {
+            chatWindow.classList.remove('active');
+            chatBubble.style.display = 'flex';
+        });
+
+        // Handle chat bubble click
+        chatBubble.addEventListener('click', function() {
+            chatWindow.classList.add('active');
+            chatBubble.style.display = 'none';
+        });
+
+        sendMessage.addEventListener('click', sendChatMessage);
+        messageInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendChatMessage();
+            }
+        });
+
+        function sendChatMessage() {
+            const message = messageInput.value.trim();
+            if (message) {
+                // Add message to chat
+                const messageElement = document.createElement('div');
+                messageElement.className = 'message user-message';
+                messageElement.textContent = message;
+                chatMessages.appendChild(messageElement);
+
+                // Clear input
+                messageInput.value = '';
+
+                // Scroll to bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+
+                // TODO: Send message to backend and handle response
+            }
+        }
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html> 
