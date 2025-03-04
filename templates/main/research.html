@@ -15,90 +15,45 @@
     <div class="research-projects">
         <div class="projects-header">
             <h2>Research Projects</h2>
-            <button class="create-research-btn" onclick="openCreateResearchModal()">
+            <button class="create-research-btn">
                 <i class="fas fa-plus"></i> New Research
             </button>
         </div>
         
         <div class="projects-list">
-            <!-- Research Project Cards -->
+            {% for project in research_projects %}
             <div class="research-card">
                 <div class="research-card-header">
-                    <h3>AI in Healthcare</h3>
-                    <span class="status-badge in-progress">In Progress</span>
+                    <h3>{{ project.title }}</h3>
+                    <span class="status-badge {% if project.status == 'completed' %}completed{% else %}in-progress{% endif %}">
+                        {{ project.status|title }}
+                    </span>
                 </div>
-                <p>Investigating the application of artificial intelligence in healthcare diagnostics and treatment planning.</p>
+                <p>{{ project.goals }}</p>
                 <div class="research-meta">
-                    <span><i class="fas fa-calendar"></i> Started: 2024-03-02</span>
-                    <span><i class="fas fa-clock"></i> Last Updated: 2h ago</span>
+                    <span><i class="fas fa-calendar"></i> Started: {{ project.created_at|date:"Y-m-d" }}</span>
+                    <span><i class="fas fa-clock"></i> Last Updated: {{ project.updated_at|timesince }} ago</span>
                 </div>
                 <div class="research-progress">
                     <div class="progress-bar">
-                        <div class="progress" style="width: 60%"></div>
+                        <div class="progress" data-progress="{{ project.progress }}"></div>
                     </div>
-                    <span class="progress-text">60% Complete</span>
+                    <span class="progress-text">{{ project.progress }}% Complete</span>
                 </div>
                 <div class="research-actions">
-                    <button class="view-research-btn" onclick="viewResearch('research-id')">
+                    <button class="view-research-btn" onclick="viewResearch('{{ project.id }}')">
                         <i class="fas fa-eye"></i> View Details
                     </button>
-                    <button class="track-progress-btn" onclick="trackProgress('research-id')">
+                    <button class="track-progress-btn" onclick="trackProgress('{{ project.id }}')">
                         <i class="fas fa-chart-line"></i> Track Progress
                     </button>
                 </div>
             </div>
-
-            <div class="research-card">
-                <div class="research-card-header">
-                    <h3>Quantum Computing Applications</h3>
-                    <span class="status-badge in-progress">In Progress</span>
-                </div>
-                <p>Exploring quantum computing applications in cryptography and secure communication systems.</p>
-                <div class="research-meta">
-                    <span><i class="fas fa-calendar"></i> Started: 2024-02-15</span>
-                    <span><i class="fas fa-clock"></i> Last Updated: 1d ago</span>
-                </div>
-                <div class="research-progress">
-                    <div class="progress-bar">
-                        <div class="progress" style="width: 85%"></div>
-                    </div>
-                    <span class="progress-text">85% Complete</span>
-                </div>
-                <div class="research-actions">
-                    <button class="view-research-btn" onclick="viewResearch('research-id-2')">
-                        <i class="fas fa-eye"></i> View Details
-                    </button>
-                    <button class="track-progress-btn" onclick="trackProgress('research-id-2')">
-                        <i class="fas fa-chart-line"></i> Track Progress
-                    </button>
-                </div>
+            {% empty %}
+            <div class="no-research">
+                <p>No research projects yet. Click "New Research" to create your first project.</p>
             </div>
-
-            <div class="research-card">
-                <div class="research-card-header">
-                    <h3>Renewable Energy Storage</h3>
-                    <span class="status-badge completed">Completed</span>
-                </div>
-                <p>Advanced research on next-generation battery technologies for renewable energy storage systems.</p>
-                <div class="research-meta">
-                    <span><i class="fas fa-calendar"></i> Started: 2023-11-01</span>
-                    <span><i class="fas fa-clock"></i> Completed: 2024-02-28</span>
-                </div>
-                <div class="research-progress">
-                    <div class="progress-bar">
-                        <div class="progress" style="width: 100%"></div>
-                    </div>
-                    <span class="progress-text">100% Complete</span>
-                </div>
-                <div class="research-actions">
-                    <button class="view-research-btn" onclick="viewResearch('research-id-3')">
-                        <i class="fas fa-eye"></i> View Details
-                    </button>
-                    <button class="view-report-btn" onclick="viewReport('research-id-3')">
-                        <i class="fas fa-file-alt"></i> View Report
-                    </button>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
 
@@ -107,32 +62,47 @@
         <div class="modal-content">
             <span class="close-modal">&times;</span>
             <h2>Create New Research Project</h2>
-            <form id="researchForm" class="research-form">
+            <form id="researchForm" class="research-form" onsubmit="event.preventDefault(); submitResearch();">
                 <div class="form-group">
                     <label for="researchTitle">Research Title</label>
-                    <input type="text" id="researchTitle" required placeholder="Enter a clear, concise title for your research">
+                    <input type="text" id="researchTitle" name="title" required placeholder="Enter a clear, concise title for your research">
                 </div>
 
                 <div class="form-group">
                     <label for="researchGoals">Research Goals</label>
-                    <textarea id="researchGoals" rows="4" required placeholder="Describe the main objectives and goals of your research"></textarea>
+                    <textarea id="researchGoals" name="goals" rows="4" required placeholder="Describe the main objectives and goals of your research"></textarea>
                 </div>
 
                 <div class="form-group">
                     <label for="researchContext">Context & Background</label>
-                    <textarea id="researchContext" rows="4" required placeholder="Provide context and background information about your research topic"></textarea>
+                    <textarea id="researchContext" name="context" rows="4" required placeholder="Provide context and background information about your research topic"></textarea>
                 </div>
 
                 <div class="form-group">
                     <label for="researchScope">Scope & Limitations</label>
-                    <textarea id="researchScope" rows="4" required placeholder="Define the scope of your research and any limitations"></textarea>
+                    <textarea id="researchScope" name="scope" rows="4" required placeholder="Define the scope of your research and any limitations"></textarea>
                 </div>
 
                 <div class="form-group">
-                    <label for="researchHypotheses">Key Hypotheses</label>
+                    <label for="researchMethodology">Methodology</label>
+                    <textarea id="researchMethodology" name="methodology" rows="4" required placeholder="Describe your research methodology and approach"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="researchTimeline">Expected Timeline</label>
+                    <input type="text" id="researchTimeline" name="timeline" required placeholder="e.g., 3 months, 6 months, etc.">
+                </div>
+
+                <div class="form-group">
+                    <label for="researchResources">Required Resources</label>
+                    <textarea id="researchResources" name="resources" rows="4" placeholder="List any specific resources, tools, or data needed"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Key Hypotheses</label>
                     <div id="hypothesesList" class="hypotheses-list">
                         <div class="hypothesis-item">
-                            <input type="text" class="hypothesis-input" placeholder="Enter a hypothesis">
+                            <input type="text" class="hypothesis-input" name="hypotheses[]" placeholder="Enter a hypothesis">
                             <button type="button" class="remove-hypothesis" onclick="removeHypothesis(this)">
                                 <i class="fas fa-times"></i>
                             </button>
@@ -141,21 +111,6 @@
                     <button type="button" class="add-hypothesis-btn" onclick="addHypothesis()">
                         <i class="fas fa-plus"></i> Add Hypothesis
                     </button>
-                </div>
-
-                <div class="form-group">
-                    <label for="researchMethodology">Methodology</label>
-                    <textarea id="researchMethodology" rows="4" required placeholder="Describe your research methodology and approach"></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="researchTimeline">Expected Timeline</label>
-                    <input type="text" id="researchTimeline" required placeholder="e.g., 3 months, 6 months, etc.">
-                </div>
-
-                <div class="form-group">
-                    <label for="researchResources">Required Resources</label>
-                    <textarea id="researchResources" rows="4" placeholder="List any specific resources, tools, or data needed"></textarea>
                 </div>
 
                 <div class="form-actions">

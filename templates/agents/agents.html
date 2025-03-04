@@ -15,7 +15,7 @@
     <div class="agent-creation-area">
         <h2 class="text-2xl font-bold text-white">Create New Agent</h2>
         <p class="text-gray-300">Design and deploy custom agents for your specific needs. Our AI-powered platform helps you build, test, and deploy agents tailored to your research requirements.</p>
-        <button class="create-agent-btn" onclick="openCreateAgentModal()">
+        <button class="create-agent-btn" onclick="window.openCreateAgentModal()">
             <i class="fas fa-plus mr-2"></i>Create New Agent
         </button>
     </div>
@@ -26,7 +26,7 @@
     <!-- Agents Grid -->
     <div class="agents-grid">
         <!-- Meta-Orchestrator Agents -->
-        <div class="agent-card" onclick="openAgentModal('meta-orchestrator')">
+        <div class="agent-card" data-agent-id="meta-orchestrator">
             <h3>Meta Orchestrator</h3>
             <p class="text-gray-300">Manages system-wide coordination and research goals.</p>
             <div class="card-tags">
@@ -38,7 +38,7 @@
         </div>
 
         <!-- Tool and Agent Builder Supervisor -->
-        <div class="agent-card" onclick="openAgentModal('builder-supervisor')">
+        <div class="agent-card" data-agent-id="builder-supervisor">
             <h3>Tool & Agent Builder Supervisor</h3>
             <p class="text-gray-300">Oversees and coordinates the development and optimization of new tools and agents.</p>
             <div class="card-tags">
@@ -50,7 +50,7 @@
         </div>
 
         <!-- Tool and Agent Builder Agents -->
-        <div class="agent-card" onclick="openAgentModal('system-analyst')">
+        <div class="agent-card" data-agent-id="system-analyst">
             <h3>System Analyst & Designer</h3>
             <p class="text-gray-300">Designs new agents and tools based on requirements.</p>
             <div class="card-tags">
@@ -61,7 +61,7 @@
             </div>
         </div>
 
-        <div class="agent-card" onclick="openAgentModal('prompt-engineer')">
+        <div class="agent-card" data-agent-id="prompt-engineer">
             <h3>Prompt Engineer</h3>
             <p class="text-gray-300">Crafts and optimizes prompts for LLM-powered agents.</p>
             <div class="card-tags">
@@ -72,7 +72,7 @@
             </div>
         </div>
 
-        <div class="agent-card" onclick="openAgentModal('coder-agent')">
+        <div class="agent-card" data-agent-id="coder-agent">
             <h3>Coder</h3>
             <p class="text-gray-300">Implements and tests new agents and tools.</p>
             <div class="card-tags">
@@ -84,7 +84,7 @@
         </div>
 
         <!-- Literature and Novelty Supervisor -->
-        <div class="agent-card" onclick="openAgentModal('literature-supervisor')">
+        <div class="agent-card" data-agent-id="literature-supervisor">
             <h3>Literature & Novelty Supervisor</h3>
             <p class="text-gray-300">Coordinates literature review and research novelty assessment processes.</p>
             <div class="card-tags">
@@ -96,7 +96,7 @@
         </div>
 
         <!-- Research Module Agents -->
-        <div class="agent-card" onclick="openAgentModal('literature-agent')">
+        <div class="agent-card" data-agent-id="literature-agent">
             <h3>Literature Searcher</h3>
             <p class="text-gray-300">Performs comprehensive literature reviews and analysis.</p>
             <div class="card-tags">
@@ -107,7 +107,7 @@
             </div>
         </div>
 
-        <div class="agent-card" onclick="openAgentModal('proximity-checker')">
+        <div class="agent-card" data-agent-id="proximity-checker">
             <h3>Proximity Checker</h3>
             <p class="text-gray-300">Verifies research novelty and identifies gaps.</p>
             <div class="card-tags">
@@ -119,7 +119,7 @@
         </div>
 
         <!-- Hypothesis Management Supervisor -->
-        <div class="agent-card" onclick="openAgentModal('hypothesis-supervisor')">
+        <div class="agent-card" data-agent-id="hypothesis-supervisor">
             <h3>Hypothesis Management Supervisor</h3>
             <p class="text-gray-300">Oversees the generation, review, ranking, and evolution of research hypotheses.</p>
             <div class="card-tags">
@@ -130,7 +130,7 @@
             </div>
         </div>
 
-        <div class="agent-card" onclick="openAgentModal('hypothesis-agent')">
+        <div class="agent-card" data-agent-id="hypothesis-agent">
             <h3>Hypothesis Generator</h3>
             <p class="text-gray-300">Generates and refines research hypotheses.</p>
             <div class="card-tags">
@@ -141,7 +141,7 @@
             </div>
         </div>
 
-        <div class="agent-card" onclick="openAgentModal('hypothesis-reviewer')">
+        <div class="agent-card" data-agent-id="hypothesis-reviewer">
             <h3>Hypothesis Reviewer</h3>
             <p class="text-gray-300">Reviews and validates generated hypotheses.</p>
             <div class="card-tags">
@@ -152,7 +152,7 @@
             </div>
         </div>
 
-        <div class="agent-card" onclick="openAgentModal('hypothesis-ranker')">
+        <div class="agent-card" data-agent-id="hypothesis-ranker">
             <h3>Hypothesis Ranker</h3>
             <p class="text-gray-300">Prioritizes hypotheses based on potential impact.</p>
             <div class="card-tags">
@@ -163,7 +163,7 @@
             </div>
         </div>
 
-        <div class="agent-card" onclick="openAgentModal('hypothesis-evolver')">
+        <div class="agent-card" data-agent-id="hypothesis-evolver">
             <h3>Hypothesis Evolver</h3>
             <p class="text-gray-300">Evolves and refines hypotheses over time.</p>
             <div class="card-tags">
@@ -175,7 +175,7 @@
         </div>
 
         <!-- Meta Review Supervisor -->
-        <div class="agent-card" onclick="openAgentModal('review-supervisor')">
+        <div class="agent-card" data-agent-id="review-supervisor">
             <h3>Meta Review Supervisor</h3>
             <p class="text-gray-300">Coordinates and oversees the meta-review process of research findings.</p>
             <div class="card-tags">
@@ -186,7 +186,7 @@
             </div>
         </div>
 
-        <div class="agent-card" onclick="openAgentModal('meta-reviewer')">
+        <div class="agent-card" data-agent-id="meta-reviewer">
             <h3>Meta Reviewer</h3>
             <p class="text-gray-300">Reviews and validates research findings.</p>
             <div class="card-tags">
@@ -202,7 +202,7 @@
 <!-- Create Agent Modal -->
 <div id="createAgentModal" class="modal">
     <div class="modal-content">
-        <span class="close-modal" onclick="closeModal('createAgentModal')">&times;</span>
+        <span class="close-modal" onclick="window.closeModal('createAgentModal')">&times;</span>
         <h2 class="text-2xl font-bold text-white mb-4">Create New Agent</h2>
         <div class="create-agent-form">
             <div class="form-group">
@@ -212,7 +212,7 @@
             </div>
             <div class="form-group">
                 <label class="block text-gray-300 mb-2">Configuration Format</label>
-                <select class="format-select" onchange="switchCreateConfigFormat(this.value)">
+                <select class="format-select" onchange="window.switchCreateConfigFormat(this.value)">
                     <option value="json">JSON</option>
                     <option value="python">Python</option>
                 </select>
@@ -228,12 +228,12 @@
 <!-- Agent Details Modal -->
 <div id="agentDetailsModal" class="modal">
     <div class="modal-content">
-        <span class="close-modal" onclick="closeModal('agentDetailsModal')">&times;</span>
+        <span class="close-modal" onclick="window.closeModal('agentDetailsModal')">&times;</span>
         <h2 class="text-2xl font-bold text-white mb-4" id="agentModalTitle">Agent Details</h2>
         
         <div class="modal-tabs">
-            <div class="modal-tab active" onclick="switchTab('catalog')">Catalog</div>
-            <div class="modal-tab" onclick="switchTab('config')">Configuration</div>
+            <div class="modal-tab active" onclick="window.switchTab('catalog')">Catalog</div>
+            <div class="modal-tab" onclick="window.switchTab('config')">Configuration</div>
         </div>
 
         <div id="catalogTab" class="tab-content active">
@@ -251,7 +251,7 @@
 
         <div id="configTab" class="tab-content">
             <div class="mb-4">
-                <select class="format-select" onchange="switchConfigFormat(this.value)">
+                <select class="format-select" onchange="window.switchConfigFormat(this.value)">
                     <option value="json">JSON</option>
                     <option value="python">Python</option>
                 </select>
@@ -264,5 +264,8 @@
 {% endblock %}
 
 {% block extra_js %}
+<script src="{% static 'js/agent-configs.js' %}"></script>
 <script src="{% static 'js/agents.js' %}"></script>
+<script src="{% static 'js/debug.js' %}"></script>
+<!-- <script src="{% static 'js/diagnose-modal.js' %}"></script> -->
 {% endblock %} 

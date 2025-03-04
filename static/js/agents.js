@@ -1,5 +1,23 @@
+// Store current agent ID
+let currentAgentId = null;
+
+// Initialize event listeners when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Add click listeners to agent cards
+    const agentCards = document.querySelectorAll('.agent-card');
+    agentCards.forEach(card => {
+        card.addEventListener('click', function(e) {
+            e.preventDefault();
+            const agentId = this.getAttribute('data-agent-id');
+            openAgentModal(agentId);
+        });
+    });
+});
+
 function openCreateAgentModal() {
-    document.getElementById('createAgentModal').style.display = 'block';
+    const modal = document.getElementById('createAgentModal');
+    modal.style.display = 'block';
+    setTimeout(() => modal.classList.add('show'), 10);
 }
 
 function openAgentModal(agentId) {
@@ -29,12 +47,17 @@ function openAgentModal(agentId) {
     // Set the initial configuration format (JSON)
     switchConfigFormat('json');
     
-    // Show the modal
+    // Show the modal with animation
     modal.style.display = 'block';
+    setTimeout(() => modal.classList.add('show'), 10);
 }
 
 function closeModal(modalId) {
-    document.getElementById(modalId).style.display = 'none';
+    const modal = document.getElementById(modalId);
+    modal.classList.remove('show');
+    setTimeout(() => {
+        modal.style.display = 'none';
+    }, 300);
 }
 
 function switchTab(tabName) {
@@ -101,6 +124,18 @@ function switchCreateConfigFormat(format) {
 // Close modals when clicking outside
 window.onclick = function(event) {
     if (event.target.classList.contains('modal')) {
-        event.target.style.display = 'none';
+        closeModal(event.target.id);
     }
-} 
+}
+
+// Prevent modal from opening when clicking sidebar
+document.addEventListener('click', function(event) {
+    const sidebarLink = event.target.closest('.sidebar .nav-item');
+    if (sidebarLink && sidebarLink.getAttribute('href').includes('agents')) {
+        // Only prevent default and reload if we're not already on the agents page
+        if (window.location.pathname !== sidebarLink.getAttribute('href')) {
+            event.preventDefault();
+            window.location.href = sidebarLink.getAttribute('href');
+        }
+    }
+}); 

@@ -156,27 +156,28 @@ body.research-page .nav-item:hover {
 }
 
 .research-progress {
-    margin-bottom: 1.5rem;
+    margin: 15px 0;
 }
 
 .progress-bar {
+    width: 100%;
     height: 8px;
-    background: rgba(255, 255, 255, 0.1);
+    background-color: #f0f0f0;
     border-radius: 4px;
     overflow: hidden;
-    margin-bottom: 0.5rem;
+    margin: 8px 0;
 }
 
 .progress {
     height: 100%;
-    background: linear-gradient(90deg, #2dd4bf, #0ea5e9);
-    border-radius: 4px;
+    background-color: #4CAF50;
     transition: width 0.3s ease;
+    width: 0;
 }
 
 .progress-text {
-    font-size: 0.875rem;
-    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+    color: #666;
 }
 
 .research-actions {

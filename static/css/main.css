@@ -46,8 +46,9 @@ body {
     width: var(--sidebar-collapsed-width);
 }
 
+/* Remove hover effect */
 .sidebar:hover {
-    width: var(--sidebar-width);
+    width: var(--sidebar-collapsed-width);
 }
 
 .sidebar-header {
@@ -55,6 +56,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: relative;
 }
 
 .logo {
@@ -76,10 +78,15 @@ body {
     font-size: 1.2rem;
     padding: 0.5rem;
     transition: all 0.3s ease;
+    position: absolute;
+    right: 1rem;
 }
 
 .sidebar.collapsed .toggle-sidebar {
-    transform: none;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0.5rem;
 }
 
 .nav-items {

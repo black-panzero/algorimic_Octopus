@@ -11,17 +11,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Modal functionality
     function openModal(modal) {
-        modal.style.display = 'block';
+        if (modal) {
+            modal.style.display = 'block';
+        }
     }
 
     function closeModal(modal) {
-        modal.style.display = 'none';
+        if (modal) {
+            modal.style.display = 'none';
+        }
     }
 
-    createResearchBtn.addEventListener('click', function() {
-        openModal(createResearchModal);
-    });
+    // Add click event listener for create research button
+    if (createResearchBtn) {
+        createResearchBtn.addEventListener('click', function() {
+            console.log('Create research button clicked');
+            openModal(createResearchModal);
+        });
+    }
 
+    // Close modal buttons
     closeModalBtns.forEach(btn => {
         btn.addEventListener('click', function() {
             const modal = this.closest('.modal');
@@ -29,6 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Close modal when clicking outside
     window.addEventListener('click', function(e) {
         if (e.target.classList.contains('modal')) {
             closeModal(e.target);
@@ -36,18 +46,18 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Hypothesis management
-    function addHypothesis() {
+    window.addHypothesis = function() {
         const hypothesesList = document.getElementById('hypothesesList');
         const hypothesisItem = document.createElement('div');
         hypothesisItem.className = 'hypothesis-item';
         hypothesisItem.innerHTML = `
-            <input type="text" class="hypothesis-input" placeholder="Enter a hypothesis">
+            <input type="text" class="hypothesis-input" name="hypotheses[]" placeholder="Enter a hypothesis">
             <button type="button" class="remove-hypothesis" onclick="removeHypothesis(this)">
                 <i class="fas fa-times"></i>
             </button>
         `;
         hypothesesList.appendChild(hypothesisItem);
-    }
+    };
 
     window.removeHypothesis = function(button) {
         const hypothesisItem = button.closest('.hypothesis-item');
@@ -100,151 +110,187 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Submit research
     window.submitResearch = function() {
+        console.log('Starting research submission...');
+        
+        // Get CSRF token
+        const csrftoken = getCookie('csrftoken');
+        console.log('CSRF Token:', csrftoken);
+        
         // Get form data
+        const form = document.getElementById('researchForm');
+        const formData = new FormData(form);
+        
+        // Convert FormData to JSON object
         const researchData = {
-            title: document.getElementById('researchTitle').value,
-            goals: document.getElementById('researchGoals').value,
-            context: document.getElementById('researchContext').value,
-            scope: document.getElementById('researchScope').value,
-            methodology: document.getElementById('researchMethodology').value,
-            timeline: document.getElementById('researchTimeline').value,
-            resources: document.getElementById('researchResources').value,
+            title: formData.get('title'),
+            goals: formData.get('goals'),
+            context: formData.get('context'),
+            scope: formData.get('scope'),
+            methodology: formData.get('methodology'),
+            timeline: formData.get('timeline'),
+            resources: formData.get('resources'),
             hypotheses: Array.from(document.querySelectorAll('.hypothesis-input'))
                 .map(input => input.value)
                 .filter(value => value.trim() !== '')
         };
 
-        // Here you would typically send this data to your backend
-        console.log('Submitting research:', researchData);
+        console.log('Form data to submit:', researchData);
 
-        // Show success notification
-        showNotification('Research project has been initialized successfully!');
+        // Send data to backend
+        fetch('/research/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken
+            },
+            body: JSON.stringify(researchData),
+            credentials: 'same-origin'
+        })
+        .then(response => {
+            console.log('Response status:', response.status);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Response data:', data);
+            if (data.status === 'success') {
+                // Show success notification
+                showNotification('Research project has been initialized successfully!');
 
-        // Close modals and reset form
-        closeModal(researchPreviewModal);
-        researchForm.reset();
-        
-        // Add new research card to the list
-        addResearchCard(researchData);
+                // Close modals and reset form
+                closeModal(createResearchModal);
+                form.reset();
+                
+                console.log('Adding research card with data:', data.research);
+                // Add new research card to the list
+                addResearchCard(data.research);
+            } else {
+                console.error('Error response:', data);
+                showNotification('Error: ' + data.message, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Fetch error:', error);
+            showNotification('Error: ' + error.message, 'error');
+        });
     };
 
-    // Add research card to the list
+    // Initialize progress bars
+    function initializeProgressBars() {
+        document.querySelectorAll('.progress').forEach(progressBar => {
+            const progress = progressBar.getAttribute('data-progress');
+            progressBar.style.width = `${progress}%`;
+        });
+    }
+
+    // Call initialize on page load
+    initializeProgressBars();
+
+    // Update addResearchCard function
     function addResearchCard(researchData) {
-        const projectsList = document.querySelector('.projects-list');
-        const card = document.createElement('div');
-        card.className = 'research-card';
-        card.innerHTML = `
-            <div class="research-card-header">
-                <h3>${researchData.title}</h3>
-                <span class="status-badge in-progress">In Progress</span>
-            </div>
-            <p>${researchData.goals}</p>
-            <div class="research-meta">
-                <span><i class="fas fa-calendar"></i> Started: ${new Date().toLocaleDateString()}</span>
-                <span><i class="fas fa-clock"></i> Last Updated: Just now</span>
-            </div>
-            <div class="research-progress">
-                <div class="progress-bar">
-                    <div class="progress" style="width: 0%"></div>
+        try {
+            console.log('Adding research card...');
+            const projectsList = document.querySelector('.projects-list');
+            
+            // Remove "no research" message if it exists
+            const noResearchMessage = document.querySelector('.no-research');
+            if (noResearchMessage) {
+                console.log('Removing no research message');
+                noResearchMessage.remove();
+            }
+
+            const card = document.createElement('div');
+            card.className = 'research-card';
+            card.innerHTML = `
+                <div class="research-card-header">
+                    <h3>${researchData.title}</h3>
+                    <span class="status-badge in-progress">In Progress</span>
                 </div>
-                <span class="progress-text">0% Complete</span>
-            </div>
-            <div class="research-actions">
-                <button class="view-research-btn" onclick="viewResearch('${researchData.title}')">
-                    <i class="fas fa-eye"></i> View Details
-                </button>
-                <button class="track-progress-btn" onclick="trackProgress('${researchData.title}')">
-                    <i class="fas fa-chart-line"></i> Track Progress
-                </button>
-            </div>
-        `;
-        projectsList.insertBefore(card, projectsList.firstChild);
+                <p>${researchData.goals}</p>
+                <div class="research-meta">
+                    <span><i class="fas fa-calendar"></i> Started: ${researchData.created_at}</span>
+                    <span><i class="fas fa-clock"></i> Last Updated: ${researchData.updated_at}</span>
+                </div>
+                <div class="research-progress">
+                    <div class="progress-bar">
+                        <div class="progress" data-progress="${researchData.progress || 0}"></div>
+                    </div>
+                    <span class="progress-text">${researchData.progress || 0}% Complete</span>
+                </div>
+                <div class="research-actions">
+                    <button class="view-research-btn" onclick="viewResearch(${researchData.id})">
+                        <i class="fas fa-eye"></i> View Details
+                    </button>
+                    <button class="track-progress-btn" onclick="trackProgress(${researchData.id})">
+                        <i class="fas fa-chart-line"></i> Track Progress
+                    </button>
+                </div>
+            `;
+            projectsList.insertBefore(card, projectsList.firstChild);
+            initializeProgressBars();
+            console.log('Research card added successfully');
+        } catch (error) {
+            console.error('Error adding research card:', error);
+        }
     }
 
     // View research details
     window.viewResearch = function(researchId) {
-        // Here you would typically fetch research details from your backend
-        const researchDetails = {
-            title: researchId,
-            status: 'In Progress',
-            timeline: [
-                { stage: 'Research Initiation', status: 'completed' },
-                { stage: 'Hypothesis Testing', status: 'current' },
-                { stage: 'Data Analysis', status: 'pending' },
-                { stage: 'Meta Review', status: 'pending' }
-            ],
-            content: {
-                goals: 'Sample research goals...',
-                context: 'Sample context...',
-                scope: 'Sample scope...',
-                methodology: 'Sample methodology...'
-            },
-            interactions: [
-                {
-                    agent: 'Research Agent',
-                    time: '2h ago',
-                    message: 'Initial analysis of research goals and hypotheses',
-                    output: 'Sample analysis output...'
+        // Fetch research details from backend
+        fetch(`/research/${researchId}/`)
+        .then(response => response.json())
+        .then(researchDetails => {
+            // Update research details modal
+            document.getElementById('researchDetailsTitle').textContent = researchDetails.title;
+            document.getElementById('researchDetailsStatus').textContent = researchDetails.status;
+            document.getElementById('researchDetailsStatus').className = `status-badge ${researchDetails.status}`;
+
+            // Update timeline
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            timelineItems.forEach((item, index) => {
+                item.classList.remove('active');
+                if (researchDetails.timeline[index].status === 'completed') {
+                    item.classList.add('completed');
+                } else if (researchDetails.timeline[index].status === 'current') {
+                    item.classList.add('active');
                 }
-            ]
-        };
+            });
 
-        // Update research details modal
-        document.getElementById('researchDetailsTitle').textContent = researchDetails.title;
-        document.getElementById('researchDetailsStatus').textContent = researchDetails.status;
-        document.getElementById('researchDetailsStatus').className = 'status-badge in-progress';
+            // Update content
+            const contentDiv = document.getElementById('researchDetailsContent');
+            contentDiv.innerHTML = `
+                <div class="content-section">
+                    <h4>Goals</h4>
+                    <p>${researchDetails.goals}</p>
+                </div>
+                <div class="content-section">
+                    <h4>Context</h4>
+                    <p>${researchDetails.context}</p>
+                </div>
+                <div class="content-section">
+                    <h4>Scope</h4>
+                    <p>${researchDetails.scope}</p>
+                </div>
+                <div class="content-section">
+                    <h4>Methodology</h4>
+                    <p>${researchDetails.methodology}</p>
+                </div>
+                <div class="content-section">
+                    <h4>Hypotheses</h4>
+                    <ul>
+                        ${researchDetails.hypotheses.map(h => `<li>${h}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
 
-        // Update timeline
-        const timelineItems = document.querySelectorAll('.timeline-item');
-        timelineItems.forEach((item, index) => {
-            item.classList.remove('active');
-            if (researchDetails.timeline[index].status === 'completed') {
-                item.classList.add('completed');
-            } else if (researchDetails.timeline[index].status === 'current') {
-                item.classList.add('active');
-            }
+            // Show modal
+            openModal(researchDetailsModal);
+        })
+        .catch(error => {
+            showNotification('Error: ' + error.message, 'error');
         });
-
-        // Update content
-        const contentDiv = document.getElementById('researchDetailsContent');
-        contentDiv.innerHTML = `
-            <div class="content-section">
-                <h4>Goals</h4>
-                <p>${researchDetails.content.goals}</p>
-            </div>
-            <div class="content-section">
-                <h4>Context</h4>
-                <p>${researchDetails.content.context}</p>
-            </div>
-            <div class="content-section">
-                <h4>Scope</h4>
-                <p>${researchDetails.content.scope}</p>
-            </div>
-            <div class="content-section">
-                <h4>Methodology</h4>
-                <p>${researchDetails.content.methodology}</p>
-            </div>
-        `;
-
-        // Update interactions
-        const interactionsDiv = document.querySelector('.agent-interactions');
-        interactionsDiv.innerHTML = researchDetails.interactions.map(interaction => `
-            <div class="interaction-item">
-                <div class="interaction-header">
-                    <span class="agent-name">${interaction.agent}</span>
-                    <span class="interaction-time">${interaction.time}</span>
-                </div>
-                <div class="interaction-content">
-                    <p>${interaction.message}</p>
-                    <div class="interaction-output">
-                        <pre>${interaction.output}</pre>
-                    </div>
-                </div>
-            </div>
-        `).join('');
-
-        // Show modal
-        openModal(researchDetailsModal);
     };
 
     // Track research progress
@@ -255,17 +301,34 @@ document.addEventListener('DOMContentLoaded', function() {
         viewResearch(researchId);
     };
 
-    // Notification system
-    function showNotification(message) {
-        const toast = document.getElementById('notificationToast');
-        const messageSpan = toast.querySelector('.toast-message');
-        messageSpan.textContent = message;
-        toast.classList.add('show');
+    // Helper function to get CSRF token
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
 
-        // Auto-hide after 5 seconds
+    // Show notification
+    function showNotification(message, type = 'success') {
+        const toast = document.getElementById('notificationToast');
+        const toastMessage = toast.querySelector('.toast-message');
+        
+        toast.className = `notification-toast ${type}`;
+        toastMessage.textContent = message;
+        toast.style.display = 'block';
+        
         setTimeout(() => {
-            toast.classList.remove('show');
-        }, 5000);
+            toast.style.display = 'none';
+        }, 3000);
     }
 
     toastCloseBtn.addEventListener('click', function() {

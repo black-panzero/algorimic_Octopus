@@ -142,20 +142,26 @@ body.tools-page .nav-item:hover {
 /* Tools Grid */
 .tools-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
     gap: 2rem;
+    padding: 1rem;
 }
 
 .tool-card {
-    background: rgba(26, 30, 30, 0.75);
-    backdrop-filter: blur(10px);
-    border-radius: 12px;
-    padding: 1.75rem;
+    background: rgba(26, 30, 30, 0.85);
+    backdrop-filter: blur(12px);
+    border-radius: 15px;
+    padding: 1.5rem;
     border: 1px solid rgba(45, 212, 191, 0.2);
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
     position: relative;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: 180px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .tool-card::before {
@@ -164,8 +170,8 @@ body.tools-page .nav-item:hover {
     top: 0;
     left: 0;
     width: 100%;
-    height: 4px;
-    background: linear-gradient(90deg, #2dd4bf, #0ea5e9);
+    height: 3px;
+    background: linear-gradient(135deg, #2dd4bf 0%, #0ea5e9 100%);
     opacity: 0;
     transition: opacity 0.3s ease;
 }
@@ -173,77 +179,200 @@ body.tools-page .nav-item:hover {
 .tool-card:hover {
     transform: translateY(-5px);
     border-color: rgba(45, 212, 191, 0.4);
-    box-shadow: 0 8px 16px rgba(45, 212, 191, 0.1);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
 }
 
 .tool-card:hover::before {
     opacity: 1;
 }
 
-.tool-header {
+.tool-card-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
 }
 
-.tool-header h3 {
+.tool-header-divider {
+    width: 90%;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(45, 212, 191, 0.2), rgba(14, 165, 233, 0.2));
+    margin: 0.5rem auto;
+}
+
+.tool-card h3 {
     font-size: 1.25rem;
+    line-height: 1.4;
     color: #2dd4bf;
     font-weight: 600;
     letter-spacing: 0.025em;
+    margin: 0;
+    padding: 0;
 }
 
 .category-tag {
-    padding: 0.25rem 0.75rem;
+    padding: 0.35rem 0.75rem;
     border-radius: 1rem;
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     font-weight: 500;
+    letter-spacing: 0.025em;
+    white-space: nowrap;
+    text-transform: uppercase;
 }
 
-.category-tag.llm {
-    background: rgba(192, 132, 252, 0.2);
-    border: 1px solid rgba(192, 132, 252, 0.3);
-    color: #c084fc;
+.category-llm {
+    background: rgba(45, 212, 191, 0.15);
+    color: #2dd4bf;
+    border: 1px solid rgba(45, 212, 191, 0.3);
 }
 
-.category-tag.data {
-    background: rgba(96, 165, 250, 0.2);
-    border: 1px solid rgba(96, 165, 250, 0.3);
-    color: #60a5fa;
+.category-research {
+    background: rgba(124, 58, 237, 0.15);
+    color: #8b5cf6;
+    border: 1px solid rgba(124, 58, 237, 0.3);
 }
 
-.category-tag.research {
-    background: rgba(74, 222, 128, 0.2);
-    border: 1px solid rgba(74, 222, 128, 0.3);
-    color: #4ade80;
+.category-data {
+    background: rgba(234, 179, 8, 0.15);
+    color: #facc15;
+    border: 1px solid rgba(234, 179, 8, 0.3);
 }
 
-.category-tag.analysis {
-    background: rgba(245, 158, 11, 0.2);
-    border: 1px solid rgba(245, 158, 11, 0.3);
-    color: #f59e0b;
+.category-analysis {
+    background: rgba(236, 72, 153, 0.15);
+    color: #ec4899;
+    border: 1px solid rgba(236, 72, 153, 0.3);
 }
 
 .tool-card p {
-    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.9rem;
     line-height: 1.6;
-    margin-bottom: 1.5rem;
-    opacity: 0.85;
+    margin: 0.75rem 0;
+    flex-grow: 1;
+    padding: 0 1rem;
+    text-align: left;
+}
+
+.tool-footer-divider {
+    width: 90%;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(45, 212, 191, 0.2), rgba(14, 165, 233, 0.2));
+    margin: 0.75rem auto;
 }
 
 .tool-tags {
     display: flex;
-    gap: 0.5rem;
     flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+}
+
+.tool-card-description {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    padding: 0.75rem 0;
+    margin: 0.75rem 0;
+    flex-grow: 1;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    box-orient: vertical;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tool-capabilities {
+    padding-top: 0.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
 }
 
 .capability-tag {
+    background: rgba(17, 24, 39, 0.4);
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.75rem;
     padding: 0.25rem 0.75rem;
-    background: rgba(255, 255, 255, 0.1);
     border-radius: 1rem;
-    font-size: 0.85rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.2s ease;
+}
+
+.capability-tag:hover {
+    background: rgba(17, 24, 39, 0.6);
+    border-color: rgba(45, 212, 191, 0.3);
+}
+
+.tool-card-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: auto;
+}
+
+.tool-categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.tool-category {
+    background: rgba(17, 24, 39, 0.4);
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.8rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.2s ease;
+}
+
+.tool-category:hover {
+    background: rgba(17, 24, 39, 0.6);
+    border-color: rgba(45, 212, 191, 0.3);
+}
+
+.tool-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tool-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     color: rgba(255, 255, 255, 0.7);
+    font-size: 0.85rem;
+}
+
+.tool-status i {
+    color: #2dd4bf;
+    font-size: 1rem;
+}
+
+.tool-role {
+    font-size: 0.85rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+}
+
+.role-core {
+    background: linear-gradient(135deg, rgba(45, 212, 191, 0.15), rgba(14, 165, 233, 0.15));
+    border: 1px solid rgba(45, 212, 191, 0.3);
+    color: #2dd4bf;
+}
+
+.role-utility {
+    background: linear-gradient(135deg, rgba(74, 222, 128, 0.15), rgba(34, 197, 94, 0.15));
+    border: 1px solid rgba(74, 222, 128, 0.3);
+    color: #4ade80;
 }
 
 /* Modal styles */
@@ -256,26 +385,54 @@ body.tools-page .nav-item:hover {
     height: 100%;
     background: rgba(0, 0, 0, 0.85);
     backdrop-filter: blur(8px);
-    z-index: 1000;
+    z-index: 9999;
+    transition: opacity 0.3s ease;
+}
+
+.modal.show {
+    display: block;
+    opacity: 1;
 }
 
 .modal-content {
     position: relative;
-    background: rgba(26, 30, 30, 0.85);
+    background: rgba(17, 24, 39, 0.95);
     backdrop-filter: blur(12px);
-    margin: 3% auto;
-    padding: 2.5rem;
-    width: 85%;
-    max-width: 900px;
-    border-radius: 20px;
+    margin: 2% auto;
+    padding: 2rem;
+    width: 90%;
+    max-width: 1000px;
+    border-radius: 16px;
     border: 1px solid rgba(45, 212, 191, 0.2);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transform: translateY(-20px);
+    transition: transform 0.3s ease;
+    color: #e5e7eb;
+}
+
+.modal.show .modal-content {
+    transform: translateY(0);
+}
+
+.modal-content h2 {
+    font-size: 1.875rem;
+    font-weight: 600;
+    color: #2dd4bf;
+    margin-bottom: 1.5rem;
+    padding-right: 2rem;
+}
+
+.modal-content h3 {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: #e5e7eb;
+    margin: 1.5rem 0 1rem;
 }
 
 .close-modal {
     position: absolute;
-    right: 2rem;
-    top: 2rem;
+    right: 1.5rem;
+    top: 1.5rem;
     font-size: 1.5rem;
     cursor: pointer;
     color: rgba(255, 255, 255, 0.7);
@@ -287,6 +444,7 @@ body.tools-page .nav-item:hover {
     justify-content: center;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.1);
+    border: none;
 }
 
 .close-modal:hover {
@@ -295,99 +453,217 @@ body.tools-page .nav-item:hover {
     transform: rotate(90deg);
 }
 
-/* Create Tool Form */
-.create-tool-form {
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 12px;
-    padding: 2rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+/* Modal Tabs Navigation */
+.modal-tabs {
+    display: flex;
+    margin: 1.5rem -2rem 2rem;
+    padding: 0 2rem;
+    border-bottom: 1px solid rgba(45, 212, 191, 0.15);
+    gap: 1rem;
+    background: rgba(17, 24, 39, 0.6);
 }
 
-.form-group {
-    margin-bottom: 1.5rem;
-}
-
-.form-group label {
-    color: #2dd4bf;
+.modal-tab {
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.6);
     font-weight: 500;
-    margin-bottom: 0.75rem;
+    position: relative;
+    transition: all 0.2s ease;
+    background: none;
+    border: none;
+    font-size: 0.95rem;
+    letter-spacing: 0.025em;
+}
+
+.modal-tab:hover {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.modal-tab.active {
+    color: #2dd4bf;
+    background: rgba(45, 212, 191, 0.1);
+}
+
+.modal-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, #2dd4bf, #0ea5e9);
+}
+
+/* Tab Content Styling */
+.tab-content {
+    display: none;
+    animation: fadeIn 0.3s ease;
+    padding: 1.5rem;
+    background: rgba(17, 24, 39, 0.4);
+    border-radius: 12px;
+    margin: 1rem 0;
+    border: 1px solid rgba(45, 212, 191, 0.1);
+}
+
+.tab-content.active {
     display: block;
 }
 
-.form-group textarea {
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(45, 212, 191, 0.2);
+/* Catalog Tab */
+#toolCatalogTab p {
     color: rgba(255, 255, 255, 0.9);
-    padding: 1rem;
-    border-radius: 8px;
-    width: 100%;
-    transition: all 0.3s ease;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
 }
 
-.form-group textarea:focus {
-    outline: none;
-    border-color: #2dd4bf;
-    box-shadow: 0 0 0 2px rgba(45, 212, 191, 0.1);
+.capabilities-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0 2rem;
 }
 
-.format-select {
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(45, 212, 191, 0.2);
-    color: #fff;
-    padding: 0.75rem 1.5rem;
+.capabilities-list li {
+    background: rgba(45, 212, 191, 0.08);
+    padding: 0.75rem 1rem;
     border-radius: 8px;
+    color: rgba(255, 255, 255, 0.9);
     font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid rgba(45, 212, 191, 0.15);
+    transition: all 0.2s ease;
+}
+
+.capabilities-list li:hover {
+    background: rgba(45, 212, 191, 0.12);
+    border-color: rgba(45, 212, 191, 0.25);
+}
+
+.capabilities-list li::before {
+    content: '•';
+    color: #2dd4bf;
+    font-size: 1.2em;
+}
+
+/* Configuration Tab */
+.format-selector {
+    margin-bottom: 1.5rem;
+    display: inline-flex;
+    background: rgba(17, 24, 39, 0.6);
+    padding: 0.25rem;
+    border-radius: 6px;
+    border: 1px solid rgba(45, 212, 191, 0.15);
+}
+
+.format-btn {
+    padding: 0.5rem 1.25rem;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
     cursor: pointer;
-    transition: all 0.3s ease;
-    width: 100%;
-    max-width: 200px;
+    transition: all 0.2s ease;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.025em;
 }
 
-.format-select:hover {
-    border-color: rgba(45, 212, 191, 0.4);
+.format-btn:hover {
+    color: rgba(255, 255, 255, 0.9);
 }
 
-.format-select:focus {
-    outline: none;
-    border-color: #2dd4bf;
-    box-shadow: 0 0 0 2px rgba(45, 212, 191, 0.1);
+.format-btn.active {
+    background: rgba(45, 212, 191, 0.15);
+    color: #2dd4bf;
 }
 
-.format-select option {
-    background: #1a1e1e;
-    color: #fff;
-    padding: 0.75rem;
-}
-
-.code-editor {
-    background: rgba(0, 0, 0, 0.3);
+#toolConfigEditor {
+    background: rgba(17, 24, 39, 0.6);
     padding: 1.5rem;
-    border-radius: 12px;
+    border-radius: 8px;
     font-family: 'Fira Code', monospace;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     line-height: 1.6;
     white-space: pre-wrap;
-    max-height: 300px;
+    max-height: 400px;
     overflow-y: auto;
-    border: 1px solid rgba(45, 212, 191, 0.2);
+    border: 1px solid rgba(45, 212, 191, 0.15);
     color: rgba(255, 255, 255, 0.9);
-    margin-bottom: 1.5rem;
+    transition: all 0.2s ease;
 }
 
-.code-editor::-webkit-scrollbar {
-    width: 8px;
+#toolConfigEditor:hover {
+    border-color: rgba(45, 212, 191, 0.25);
+    background: rgba(17, 24, 39, 0.7);
 }
 
-.code-editor::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.2);
+/* Parameters Tab */
+.parameters-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.25rem;
+    margin-top: 0.5rem;
+}
+
+.parameter-item {
+    background: rgba(17, 24, 39, 0.6);
+    border-radius: 8px;
+    padding: 1.25rem;
+    border: 1px solid rgba(45, 212, 191, 0.15);
+    transition: all 0.2s ease;
+}
+
+.parameter-item:hover {
+    border-color: rgba(45, 212, 191, 0.25);
+    background: rgba(17, 24, 39, 0.7);
+    box-shadow: 0 4px 12px rgba(45, 212, 191, 0.05);
+}
+
+.parameter-name {
+    color: #2dd4bf;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.025em;
+}
+
+.parameter-type {
+    display: inline-block;
+    background: rgba(45, 212, 191, 0.1);
+    color: rgba(255, 255, 255, 0.9);
+    padding: 0.25rem 0.75rem;
     border-radius: 4px;
+    font-size: 0.85rem;
+    margin-bottom: 0.75rem;
+    border: 1px solid rgba(45, 212, 191, 0.15);
 }
 
-.code-editor::-webkit-scrollbar-thumb {
-    background: rgba(45, 212, 191, 0.3);
-    border-radius: 4px;
+.parameter-description {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+    line-height: 1.5;
 }
 
-.code-editor::-webkit-scrollbar-thumb:hover {
-    background: rgba(45, 212, 191, 0.5);
+/* Common Tab Content Styles */
+.tab-content h3 {
+    color: #2dd4bf;
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin: 1.5rem 0 1rem;
+    letter-spacing: 0.025em;
+}
+
+.tab-content h3:first-child {
+    margin-top: 0;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 } 

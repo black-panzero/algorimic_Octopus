@@ -191,6 +191,7 @@ body.agents-page .nav-item:hover {
 /* Module Icons Standardization */
 .agent-card .text-purple-400 i {
     background: -webkit-linear-gradient(45deg, #c084fc, #8b5cf6);
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -200,6 +201,7 @@ body.agents-page .nav-item:hover {
 
 .agent-card .text-blue-400 i {
     background: -webkit-linear-gradient(45deg, #60a5fa, #3b82f6);
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -209,6 +211,7 @@ body.agents-page .nav-item:hover {
 
 .agent-card .text-green-400 i {
     background: -webkit-linear-gradient(45deg, #4ade80, #22c55e);
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -218,6 +221,7 @@ body.agents-page .nav-item:hover {
 
 .agent-card .text-yellow-400 i {
     background: -webkit-linear-gradient(45deg, #facc15, #eab308);
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -247,7 +251,7 @@ body.agents-page .nav-item:hover {
 
 /* Modal styles */
 .modal {
-    display: none;
+    display: none; /* Initial state */
     position: fixed;
     top: 0;
     left: 0;
@@ -255,20 +259,32 @@ body.agents-page .nav-item:hover {
     height: 100%;
     background: rgba(0, 0, 0, 0.85);
     backdrop-filter: blur(8px);
-    z-index: 1000;
+    z-index: 9999;
+    transition: opacity 0.3s ease;
+}
+
+.modal.show {
+    display: block;
+    opacity: 1;
 }
 
 .modal-content {
     position: relative;
-    background: rgba(26, 30, 30, 0.85);
+    background: rgba(26, 30, 30, 0.95);
     backdrop-filter: blur(12px);
-    margin: 3% auto;
+    margin: 5% auto;
     padding: 2.5rem;
     width: 85%;
     max-width: 900px;
     border-radius: 20px;
     border: 1px solid rgba(45, 212, 191, 0.2);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transform: translateY(-20px);
+    transition: transform 0.3s ease;
+}
+
+.modal.show .modal-content {
+    transform: translateY(0);
 }
 
 .close-modal {
