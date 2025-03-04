@@ -113,8 +113,11 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Starting research submission...');
         
         // Get CSRF token
-        const csrftoken = getCookie('csrftoken');
-        console.log('CSRF Token:', csrftoken);
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        if (!csrftoken) {
+            showNotification('CSRF token not found. Please refresh the page.', 'error');
+            return;
+        }
         
         // Get form data
         const form = document.getElementById('researchForm');
@@ -128,13 +131,24 @@ document.addEventListener('DOMContentLoaded', function() {
             scope: formData.get('scope'),
             methodology: formData.get('methodology'),
             timeline: formData.get('timeline'),
-            resources: formData.get('resources'),
+            resources: formData.get('resources') || '',
             hypotheses: Array.from(document.querySelectorAll('.hypothesis-input'))
                 .map(input => input.value)
                 .filter(value => value.trim() !== '')
         };
 
-        console.log('Form data to submit:', researchData);
+        // Validate required fields
+        const requiredFields = ['title', 'goals', 'context', 'scope', 'methodology', 'timeline'];
+        const missingFields = requiredFields.filter(field => !researchData[field]);
+        if (missingFields.length > 0) {
+            showNotification(`Missing required fields: ${missingFields.join(', ')}`, 'error');
+            return;
+        }
+
+        // Disable submit button to prevent double submission
+        const submitBtn = form.querySelector('.submit-btn');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
 
         // Send data to backend
         fetch('/research/', {
@@ -147,33 +161,44 @@ document.addEventListener('DOMContentLoaded', function() {
             credentials: 'same-origin'
         })
         .then(response => {
-            console.log('Response status:', response.status);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             return response.json();
         })
         .then(data => {
-            console.log('Response data:', data);
             if (data.status === 'success') {
+                // Add the new research card to the list
+                addResearchCard(data.research);
+                
                 // Show success notification
-                showNotification('Research project has been initialized successfully!');
-
-                // Close modals and reset form
+                showNotification('Research project created successfully!', 'success');
+                
+                // Close all modals
                 closeModal(createResearchModal);
+                closeModal(researchPreviewModal);
+                
+                // Reset form
                 form.reset();
                 
-                console.log('Adding research card with data:', data.research);
-                // Add new research card to the list
-                addResearchCard(data.research);
+                // Clear hypotheses except for the first one
+                const hypothesesList = document.getElementById('hypothesesList');
+                const firstHypothesis = hypothesesList.querySelector('.hypothesis-item');
+                hypothesesList.innerHTML = '';
+                hypothesesList.appendChild(firstHypothesis);
+                firstHypothesis.querySelector('.hypothesis-input').value = '';
             } else {
-                console.error('Error response:', data);
-                showNotification('Error: ' + data.message, 'error');
+                throw new Error(data.message || 'Failed to create research project');
             }
         })
         .catch(error => {
-            console.error('Fetch error:', error);
-            showNotification('Error: ' + error.message, 'error');
+            console.error('Error:', error);
+            showNotification(error.message, 'error');
+        })
+        .finally(() => {
+            // Re-enable submit button
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="fas fa-check"></i> Submit Research';
         });
     };
 
@@ -236,8 +261,155 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    let currentProjectId = null;
+    let currentProjectTitle = null;
+
     // View research details
     window.viewResearch = function(researchId) {
+        currentProjectId = researchId;
+        
+        fetch(`/research/${researchId}/`)
+            .then(response => response.json())
+            .then(researchDetails => {
+                currentProjectTitle = researchDetails.title;
+                // Update view details modal
+                document.getElementById('viewDetailsTitle').textContent = researchDetails.title;
+                document.getElementById('viewDetailsStatus').textContent = researchDetails.status;
+                document.getElementById('viewDetailsStatus').className = `status-badge ${researchDetails.status}`;
+
+                // Update metadata
+                document.getElementById('viewDetailsCreated').textContent = `Created: ${researchDetails.created_at}`;
+                document.getElementById('viewDetailsUpdated').textContent = `Last Updated: ${researchDetails.updated_at}`;
+
+                // Update content
+                document.getElementById('viewDetailsGoals').textContent = researchDetails.goals;
+                document.getElementById('viewDetailsContext').textContent = researchDetails.context;
+                document.getElementById('viewDetailsScope').textContent = researchDetails.scope;
+                document.getElementById('viewDetailsMethodology').textContent = researchDetails.methodology;
+                document.getElementById('viewDetailsTimeline').textContent = researchDetails.timeline;
+                document.getElementById('viewDetailsResources').textContent = researchDetails.resources || 'No resources specified';
+
+                // Update hypotheses
+                const hypothesesList = document.getElementById('viewDetailsHypotheses');
+                hypothesesList.innerHTML = '';
+                if (researchDetails.hypotheses && researchDetails.hypotheses.length > 0) {
+                    researchDetails.hypotheses.forEach(hypothesis => {
+                        const li = document.createElement('li');
+                        li.textContent = hypothesis;
+                        hypothesesList.appendChild(li);
+                    });
+                } else {
+                    const li = document.createElement('li');
+                    li.textContent = 'No hypotheses specified';
+                    hypothesesList.appendChild(li);
+                }
+
+                // Show modal
+                const viewDetailsModal = document.getElementById('viewDetailsModal');
+                if (viewDetailsModal) {
+                    viewDetailsModal.style.display = 'block';
+                }
+            })
+            .catch(error => {
+                showNotification('Error fetching research details', 'error');
+            });
+    };
+
+    // Also move these functions to global scope
+    window.showDeleteConfirmation = function() {
+        document.getElementById('deleteProjectTitle').textContent = currentProjectTitle;
+        document.getElementById('deleteConfirmation').style.display = 'block';
+    };
+
+    window.hideDeleteConfirmation = function() {
+        document.getElementById('deleteConfirmation').style.display = 'none';
+    };
+
+    // Helper function to get CSRF token
+    window.getCookie = function(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    };
+
+    // Show notification
+    window.showNotification = function(message, type = 'success') {
+        const toast = document.getElementById('notificationToast');
+        const toastMessage = toast.querySelector('.toast-message');
+        
+        toast.className = `notification-toast ${type}`;
+        toastMessage.textContent = message;
+        toast.style.display = 'block';
+        
+        setTimeout(() => {
+            toast.style.display = 'none';
+        }, 3000);
+    };
+
+    window.deleteProject = function() {
+        if (!currentProjectId) {
+            console.error('No project ID available for deletion');
+            showNotification('Error: No project ID available', 'error');
+            return;
+        }
+
+        const csrftoken = getCookie('csrftoken');
+        if (!csrftoken) {
+            console.error('CSRF token not found');
+            showNotification('Error: CSRF token not found', 'error');
+            return;
+        }
+
+        console.log('Attempting to delete project:', currentProjectId);
+        
+        fetch(`/research/${currentProjectId}/`, {  // Changed to match Django's URL pattern
+            method: 'DELETE',
+            headers: {
+                'X-CSRFToken': csrftoken,
+                'Content-Type': 'application/json'
+            },
+            credentials: 'same-origin'
+        })
+        .then(response => {
+            console.log('Delete response status:', response.status);
+            if (!response.ok) {
+                return response.text().then(text => {
+                    throw new Error(`Server responded with ${response.status}: ${text}`);
+                });
+            }
+            // Find and remove the project card
+            const projectCard = document.querySelector(`.research-card:has(button[onclick*="viewResearch(${currentProjectId})"])`);
+            if (projectCard) {
+                projectCard.remove();
+            } else {
+                console.warn('Project card not found in DOM');
+                // If we can't find the card, reload the page
+                window.location.reload();
+            }
+
+            // Close both modals
+            hideDeleteConfirmation();
+            document.getElementById('viewDetailsModal').style.display = 'none';
+            
+            showNotification('Project deleted successfully', 'success');
+        })
+        .catch(error => {
+            console.error('Error during deletion:', error);
+            showNotification(`Error deleting project: ${error.message}`, 'error');
+        });
+    };
+
+    // Track research progress
+    window.trackProgress = function(researchId) {
         // Fetch research details from backend
         fetch(`/research/${researchId}/`)
         .then(response => response.json())
@@ -251,39 +423,12 @@ document.addEventListener('DOMContentLoaded', function() {
             const timelineItems = document.querySelectorAll('.timeline-item');
             timelineItems.forEach((item, index) => {
                 item.classList.remove('active');
-                if (researchDetails.timeline[index].status === 'completed') {
+                if (researchDetails.timeline[index]?.status === 'completed') {
                     item.classList.add('completed');
-                } else if (researchDetails.timeline[index].status === 'current') {
+                } else if (researchDetails.timeline[index]?.status === 'current') {
                     item.classList.add('active');
                 }
             });
-
-            // Update content
-            const contentDiv = document.getElementById('researchDetailsContent');
-            contentDiv.innerHTML = `
-                <div class="content-section">
-                    <h4>Goals</h4>
-                    <p>${researchDetails.goals}</p>
-                </div>
-                <div class="content-section">
-                    <h4>Context</h4>
-                    <p>${researchDetails.context}</p>
-                </div>
-                <div class="content-section">
-                    <h4>Scope</h4>
-                    <p>${researchDetails.scope}</p>
-                </div>
-                <div class="content-section">
-                    <h4>Methodology</h4>
-                    <p>${researchDetails.methodology}</p>
-                </div>
-                <div class="content-section">
-                    <h4>Hypotheses</h4>
-                    <ul>
-                        ${researchDetails.hypotheses.map(h => `<li>${h}</li>`).join('')}
-                    </ul>
-                </div>
-            `;
 
             // Show modal
             openModal(researchDetailsModal);
@@ -293,45 +438,66 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     };
 
-    // Track research progress
-    window.trackProgress = function(researchId) {
-        // Here you would typically fetch progress data from your backend
-        console.log('Tracking progress for:', researchId);
-        // For now, just show the research details
-        viewResearch(researchId);
-    };
-
-    // Helper function to get CSRF token
-    function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
-
-    // Show notification
-    function showNotification(message, type = 'success') {
-        const toast = document.getElementById('notificationToast');
-        const toastMessage = toast.querySelector('.toast-message');
-        
-        toast.className = `notification-toast ${type}`;
-        toastMessage.textContent = message;
-        toast.style.display = 'block';
-        
-        setTimeout(() => {
-            toast.style.display = 'none';
-        }, 3000);
-    }
-
     toastCloseBtn.addEventListener('click', function() {
         notificationToast.classList.remove('show');
     });
+
+    function deleteResearch(researchId) {
+        // Get the CSRF token from the cookie
+        const csrftoken = getCookie('csrftoken');
+        
+        // Show confirmation popup
+        const confirmPopup = document.getElementById('deleteConfirmPopup');
+        confirmPopup.style.display = 'block';
+        
+        // Handle confirm button click
+        document.getElementById('confirmDelete').onclick = async function() {
+            try {
+                const response = await fetch(`/research/${researchId}/`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRFToken': csrftoken
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Close the confirmation popup and view details modal
+                    confirmPopup.style.display = 'none';
+                    document.getElementById('viewDetailsModal').style.display = 'none';
+                    
+                    // Remove the research card from the UI
+                    const researchCard = document.querySelector(`.research-card[data-id="${researchId}"]`);
+                    if (researchCard) {
+                        researchCard.remove();
+                    }
+                    
+                    // Show success notification
+                    showNotification('success', 'Research project deleted successfully');
+                    
+                    // If no research cards left, show the "no research" message
+                    const researchCards = document.querySelectorAll('.research-card');
+                    if (researchCards.length === 0) {
+                        const projectsList = document.querySelector('.projects-list');
+                        projectsList.innerHTML = `
+                            <div class="no-research">
+                                <p>No research projects yet. Click "New Research" to create your first project.</p>
+                            </div>
+                        `;
+                    }
+                } else {
+                    throw new Error(data.message || 'Failed to delete research project');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showNotification('error', error.message);
+            }
+        };
+        
+        // Handle cancel button click
+        document.getElementById('cancelDelete').onclick = function() {
+            confirmPopup.style.display = 'none';
+        };
+    }
 }); 

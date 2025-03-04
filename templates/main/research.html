@@ -22,7 +22,7 @@
         
         <div class="projects-list">
             {% for project in research_projects %}
-            <div class="research-card">
+            <div class="research-card" data-id="{{ project.id }}">
                 <div class="research-card-header">
                     <h3>{{ project.title }}</h3>
                     <span class="status-badge {% if project.status == 'completed' %}completed{% else %}in-progress{% endif %}">
@@ -63,6 +63,7 @@
             <span class="close-modal">&times;</span>
             <h2>Create New Research Project</h2>
             <form id="researchForm" class="research-form" onsubmit="event.preventDefault(); submitResearch();">
+                {% csrf_token %}
                 <div class="form-group">
                     <label for="researchTitle">Research Title</label>
                     <input type="text" id="researchTitle" name="title" required placeholder="Enter a clear, concise title for your research">
@@ -176,15 +177,95 @@
     </div>
 
     <!-- Research Details Modal -->
-    <div id="researchDetailsModal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
+    <div id="viewDetailsModal" class="modal">
+        <div class="modal-content view-details-content">
+            <div class="research-header">
+                <span class="close-modal">&times;</span>
+                <div class="header-content">
+                    <h2 id="viewDetailsTitle"></h2>
+                    <span class="status-badge" id="viewDetailsStatus"></span>
+                </div>
+            </div>
             <div class="research-details">
-                <div class="research-header">
+                <div class="research-meta-info">
+                    <div class="meta-item">
+                        <i class="fas fa-calendar"></i>
+                        <span id="viewDetailsCreated"></span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-clock"></i>
+                        <span id="viewDetailsUpdated"></span>
+                    </div>
+                </div>
+                <div class="details-grid">
+                    <div class="details-section">
+                        <div class="section-header">
+                            <i class="fas fa-bullseye"></i>
+                            <h4>Goals</h4>
+                        </div>
+                        <p id="viewDetailsGoals"></p>
+                    </div>
+                    <div class="details-section">
+                        <div class="section-header">
+                            <i class="fas fa-info-circle"></i>
+                            <h4>Context</h4>
+                        </div>
+                        <p id="viewDetailsContext"></p>
+                    </div>
+                    <div class="details-section">
+                        <div class="section-header">
+                            <i class="fas fa-compress-arrows-alt"></i>
+                            <h4>Scope</h4>
+                        </div>
+                        <p id="viewDetailsScope"></p>
+                    </div>
+                    <div class="details-section">
+                        <div class="section-header">
+                            <i class="fas fa-cogs"></i>
+                            <h4>Methodology</h4>
+                        </div>
+                        <p id="viewDetailsMethodology"></p>
+                    </div>
+                    <div class="details-section">
+                        <div class="section-header">
+                            <i class="fas fa-clock"></i>
+                            <h4>Timeline</h4>
+                        </div>
+                        <p id="viewDetailsTimeline"></p>
+                    </div>
+                    <div class="details-section">
+                        <div class="section-header">
+                            <i class="fas fa-tools"></i>
+                            <h4>Resources</h4>
+                        </div>
+                        <p id="viewDetailsResources"></p>
+                    </div>
+                    <div class="details-section full-width">
+                        <div class="section-header">
+                            <i class="fas fa-lightbulb"></i>
+                            <h4>Hypotheses</h4>
+                        </div>
+                        <ul id="viewDetailsHypotheses" class="hypotheses-list"></ul>
+                    </div>
+                </div>
+                <button class="delete-btn" onclick="showDeleteConfirmation()">
+                    <i class="fas fa-trash-alt"></i>&nbsp;Delete Project
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Track Progress Modal -->
+    <div id="researchDetailsModal" class="modal">
+        <div class="modal-content track-progress-content">
+            <div class="research-header">
+                <span class="close-modal">&times;</span>
+                <div class="header-content">
                     <h2 id="researchDetailsTitle"></h2>
                     <span class="status-badge" id="researchDetailsStatus"></span>
                 </div>
-                
+            </div>
+            <div class="research-details">
                 <div class="research-timeline">
                     <div class="timeline-item active">
                         <div class="timeline-icon">
@@ -224,25 +305,18 @@
                     </div>
                 </div>
 
-                <div class="research-content">
-                    <div class="content-section">
-                        <h3>Research Details</h3>
-                        <div id="researchDetailsContent"></div>
-                    </div>
-                    
-                    <div class="content-section">
-                        <h3>Agent Interactions</h3>
-                        <div class="agent-interactions">
-                            <div class="interaction-item">
-                                <div class="interaction-header">
-                                    <span class="agent-name">Research Agent</span>
-                                    <span class="interaction-time">2h ago</span>
-                                </div>
-                                <div class="interaction-content">
-                                    <p>Initial analysis of research goals and hypotheses</p>
-                                    <div class="interaction-output">
-                                        <pre>Analysis output...</pre>
-                                    </div>
+                <div class="agent-interactions-section">
+                    <h3>Agent Interactions</h3>
+                    <div class="agent-interactions">
+                        <div class="interaction-item">
+                            <div class="interaction-header">
+                                <span class="agent-name">Research Agent</span>
+                                <span class="interaction-time">2h ago</span>
+                            </div>
+                            <div class="interaction-content">
+                                <p>Initial analysis of research goals and hypotheses</p>
+                                <div class="interaction-output">
+                                    <pre>Analysis output...</pre>
                                 </div>
                             </div>
                         </div>
@@ -260,6 +334,18 @@
         <span class="toast-message"></span>
     </div>
     <button class="toast-close">&times;</button>
+</div>
+
+<!-- Add the delete confirmation popup -->
+<div class="delete-confirmation" id="deleteConfirmation">
+    <div class="delete-confirmation-content">
+        <h3>Delete Project</h3>
+        <p>Are you sure you want to delete "<span id="deleteProjectTitle"></span>"?</p>
+        <div class="delete-actions">
+            <button class="cancel-delete" onclick="hideDeleteConfirmation()">Cancel</button>
+            <button class="confirm-delete" onclick="deleteProject()">Yes, Delete</button>
+        </div>
+    </div>
 </div>
 {% endblock %}
 

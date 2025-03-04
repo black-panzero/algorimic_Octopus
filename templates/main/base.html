@@ -14,10 +14,10 @@
     <!-- Sidebar -->
     <aside class="sidebar">
         <div class="sidebar-header">
-            <a href="/" class="logo">Algorimic</a>
-            <button class="toggle-sidebar">
-                <i class="fas fa-chevron-left"></i>
-            </button>
+            <a href="/" class="logo">
+                <img src="{% static 'images/logo2.png' %}" alt="Logo" class="logo-icon">
+                <span class="logo-text">Algorimic</span>
+            </a>
         </div>
         <nav class="nav-items">
             <a href="{% url 'dashboard' %}" class="nav-item {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
@@ -46,21 +46,29 @@
             </a>
         </nav>
         
-        <!-- User profile at bottom of sidebar -->
-        <div class="user-profile">
-            <div class="user-info-container">
-                <div class="user-avatar">
-                    <img src="https://ui-avatars.com/api/?name={{ request.user.username }}&background=2DD4BF&color=1A1E1E&bold=true" alt="{{ request.user.username }} Avatar">
-                </div>
-                <div class="user-info">
-                    <div class="user-name">{{ request.user.username }}</div>
-                    <div class="user-role">{% if request.user.is_staff %}Admin{% else %}User{% endif %}</div>
-                </div>
+        <div class="sidebar-footer">
+            <div class="toggle-button-container">
+                <button class="toggle-sidebar">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
             </div>
-            <a href="{% url 'logout' %}" class="logout-btn">
-                <i class="fas fa-sign-out-alt"></i>
-                <span>Logout</span>
-            </a>
+            
+            <!-- User profile at bottom of sidebar -->
+            <div class="user-profile">
+                <div class="user-info-container">
+                    <div class="user-avatar">
+                        <img src="https://ui-avatars.com/api/?name={{ request.user.username }}&background=2DD4BF&color=1A1E1E&bold=true" alt="{{ request.user.username }} Avatar">
+                    </div>
+                    <div class="user-info">
+                        <div class="user-name">{{ request.user.username }}</div>
+                        <div class="user-role">{% if request.user.is_staff %}Admin{% else %}User{% endif %}</div>
+                    </div>
+                </div>
+                <a href="{% url 'logout' %}" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
         </div>
     </aside>
 
@@ -102,52 +110,29 @@
         // Sidebar Toggle
         const sidebar = document.querySelector('.sidebar');
         const toggleBtn = document.querySelector('.toggle-sidebar');
-        let isLocked = false;
+        const icon = toggleBtn.querySelector('i');
 
-        // Function to update icon
-        function updateIcon(isLocked) {
-            const icon = toggleBtn.querySelector('i');
-            if (isLocked) {
-                icon.classList.remove('fa-chevron-right');
-                icon.classList.add('fa-chevron-left');
-            } else {
+        // Function to update icon and sidebar state
+        function updateSidebarState(isCollapsed) {
+            if (isCollapsed) {
                 icon.classList.remove('fa-chevron-left');
                 icon.classList.add('fa-chevron-right');
-            }
-
-        }
-
-        // Handle hover events
-        sidebar.addEventListener('mouseenter', function() {
-            if (!isLocked) {
-                sidebar.classList.remove('collapsed');
-                updateIcon(isLocked);
-            }
-        });
-
-        sidebar.addEventListener('mouseleave', function() {
-            if (!isLocked) {
                 sidebar.classList.add('collapsed');
-                updateIcon(isLocked);
+            } else {
+                icon.classList.remove('fa-chevron-right');
+                icon.classList.add('fa-chevron-left');
+                sidebar.classList.remove('collapsed');
             }
-        });
+        }
 
         // Handle toggle button click
         toggleBtn.addEventListener('click', function() {
-            isLocked = !isLocked;
-            if (isLocked) {
-                sidebar.classList.remove('collapsed');
-                updateIcon(isLocked);
-            } else {
-                updateIcon(isLocked);
-            }
+            const isCurrentlyCollapsed = sidebar.classList.contains('collapsed');
+            updateSidebarState(!isCurrentlyCollapsed);
         });
 
         // Initialize sidebar in collapsed state
-        if (!isLocked) {
-            sidebar.classList.add('collapsed');
-            updateIcon(isLocked);
-        }
+        updateSidebarState(true);
 
         // Chat Functionality
         const chatBubble = document.getElementById('chatBubble');
@@ -203,4 +188,4 @@
     </script>
     {% block extra_js %}{% endblock %}
 </body>
-</html> </html> 
+</html> 

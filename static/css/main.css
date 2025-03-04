@@ -31,7 +31,7 @@ body {
     border-right: 1px solid var(--glass-border);
     height: 100vh;
     position: fixed;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     overflow-x: hidden;
     z-index: 1000;
     left: 0;
@@ -39,15 +39,9 @@ body {
     box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
 }
 
 .sidebar.collapsed {
-    width: var(--sidebar-collapsed-width);
-}
-
-/* Remove hover effect */
-.sidebar:hover {
     width: var(--sidebar-collapsed-width);
 }
 
@@ -55,11 +49,23 @@ body {
     padding: 1.5rem;
     display: flex;
     align-items: center;
-    justify-content: space-between;
     position: relative;
 }
 
 .logo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+}
+
+.logo-icon {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+}
+
+.logo-text {
     font-size: 1.5rem;
     font-weight: 700;
     background: linear-gradient(45deg, var(--accent-color), var(--text-color));
@@ -70,30 +76,22 @@ body {
     white-space: nowrap;
 }
 
-.toggle-sidebar {
-    background: none;
-    border: none;
-    color: var(--text-color);
-    cursor: pointer;
-    font-size: 1.2rem;
-    padding: 0.5rem;
-    transition: all 0.3s ease;
-    position: absolute;
-    right: 1rem;
+.sidebar.collapsed .logo-text {
+    display: none;
 }
 
-.sidebar.collapsed .toggle-sidebar {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    top: 0.5rem;
+.sidebar.collapsed .logo-icon {
+    width: 48px;
+    height: 48px;
 }
 
+/* Navigation items */
 .nav-items {
     padding: 1rem 0;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    flex-grow: 1;
 }
 
 .nav-item {
@@ -267,13 +265,42 @@ body {
     transform: translateY(-2px);
 }
 
-/* User profile styling */
+/* Footer section containing toggle button and user profile */
+.sidebar-footer {
+    margin-top: auto;
+    border-top: 1px solid var(--glass-border);
+}
+
+.toggle-button-container {
+    position: relative;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 1.5rem;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.toggle-sidebar {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 0.5rem;
+    transition: transform 0.3s ease;
+    margin-left: 0;
+}
+
+.sidebar.collapsed .toggle-sidebar {
+    position: relative;
+    left: 0;
+    transform: none;
+}
+
+/* User profile section */
 .user-profile {
     padding: 1.5rem;
-    border-top: 1px solid var(--glass-border);
-    display: flex;
-    flex-direction: column;
-    margin-top: auto;
 }
 
 .user-info-container {
@@ -316,7 +343,8 @@ body {
 }
 
 .logout-btn {
-    width: 100%;
+    width: calc(100% - 1rem);
+    margin: 0 0.5rem;
     padding: 0.8rem;
     display: flex;
     align-items: center;
@@ -333,6 +361,13 @@ body {
     background: var(--accent-color);
     color: var(--primary-color);
     transform: translateY(-2px);
+}
+
+.sidebar.collapsed .logout-btn {
+    width: auto;
+    padding: 0.8rem;
+    margin: 0 0.5rem;
+    justify-content: center;
 }
 
 .sidebar.collapsed .user-info, 

@@ -116,15 +116,26 @@ body.research-page .nav-item:hover {
     font-weight: 500;
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
 }
 
-.status-badge.in-progress {
+/* In Progress Status - Consistent across all views */
+.status-badge.in-progress,
+#viewDetailsStatus.in-progress,
+#researchDetailsStatus.in-progress,
+.modal .status-badge.in-progress,
+.view-details-content .status-badge.in-progress,
+.track-progress-content .status-badge.in-progress {
     background: rgba(245, 158, 11, 0.2);
     border: 1px solid rgba(245, 158, 11, 0.3);
     color: #f59e0b;
 }
 
-.status-badge.completed {
+/* Completed Status */
+.status-badge.completed,
+#viewDetailsStatus.completed,
+#researchDetailsStatus.completed,
+.modal .status-badge.completed {
     background: rgba(46, 125, 50, 0.2);
     border: 1px solid rgba(46, 125, 50, 0.3);
     color: #4caf50;
@@ -557,24 +568,26 @@ body.research-page .nav-item:hover {
 
 /* Notification Toast */
 .notification-toast {
+    display: none;
     position: fixed;
-    top: 2rem;
-    right: 2rem;
+    bottom: 20px;
+    right: 20px;
     background: rgba(26, 30, 30, 0.95);
-    border: 1px solid rgba(45, 212, 191, 0.2);
+    backdrop-filter: blur(10px);
     border-radius: 8px;
-    padding: 1rem 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+    padding: 1rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    transform: translateX(120%);
-    transition: transform 0.3s ease;
-    z-index: 1100;
+    z-index: 2000;
+    min-width: 300px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.notification-toast.show {
-    transform: translateX(0);
+.notification-toast.success {
+    border-color: rgba(46, 125, 50, 0.3);
+}
+
+.notification-toast.error {
+    border-color: rgba(211, 47, 47, 0.3);
 }
 
 .toast-content {
@@ -584,25 +597,440 @@ body.research-page .nav-item:hover {
 }
 
 .toast-content i {
-    color: #2dd4bf;
     font-size: 1.25rem;
 }
 
+.notification-toast.success i {
+    color: #4caf50;
+}
+
+.notification-toast.error i {
+    color: #f44336;
+}
+
 .toast-message {
-    color: #fff;
-    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.875rem;
+    flex: 1;
 }
 
 .toast-close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
     background: none;
     border: none;
     color: rgba(255, 255, 255, 0.5);
     cursor: pointer;
     font-size: 1.25rem;
     padding: 0.25rem;
-    transition: color 0.3s ease;
+    line-height: 1;
+    transition: color 0.2s ease;
 }
 
 .toast-close:hover {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Submit button states */
+.submit-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.submit-btn .fa-spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* View Details Modal Styles */
+.view-details-content {
+    background: rgba(26, 30, 30, 0.85);
+    backdrop-filter: blur(12px);
+}
+
+.view-details-content .status-badge.in-progress {
+    background: rgba(245, 158, 11, 0.2) !important;
+    border: 1px solid rgba(245, 158, 11, 0.3) !important;
+    color: #f59e0b !important;
+}
+
+.research-meta-info {
+    display: flex;
+    gap: 2rem;
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.meta-item i {
+    color: #2dd4bf;
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.details-section {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.details-section:hover {
+    border-color: rgba(45, 212, 191, 0.3);
+    transform: translateY(-2px);
+}
+
+.details-section.full-width {
+    grid-column: 1 / -1;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.section-header i {
+    color: #2dd4bf;
+    font-size: 1.1rem;
+}
+
+.section-header h4 {
+    color: #2dd4bf;
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.details-section p {
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.hypotheses-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.hypotheses-list li {
+    padding: 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.hypotheses-list li:last-child {
+    border-bottom: none;
+}
+
+/* Track Progress Modal Styles */
+.track-progress-content {
+    background: rgba(26, 30, 30, 0.9);
+    backdrop-filter: blur(12px);
+}
+
+.track-progress-content .status-badge.in-progress {
+    background: rgba(245, 158, 11, 0.2) !important;
+    border: 1px solid rgba(245, 158, 11, 0.3) !important;
+    color: #f59e0b !important;
+}
+
+.research-timeline {
+    margin: 3rem 0;
+    position: relative;
+    padding: 0 1rem;
+}
+
+.research-timeline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 2.5rem;
+    height: 100%;
+    width: 2px;
+    background: rgba(45, 212, 191, 0.2);
+}
+
+.timeline-item {
+    position: relative;
+    padding-left: 3.5rem;
+    margin-bottom: 2rem;
+    opacity: 0.5;
+    transition: all 0.3s ease;
+}
+
+.timeline-item.active {
+    opacity: 1;
+}
+
+.timeline-item.completed {
+    opacity: 1;
+}
+
+.timeline-icon {
+    position: absolute;
+    left: 1.75rem;
+    transform: translateX(-50%);
+    width: 2.5rem;
+    height: 2.5rem;
+    background: rgba(45, 212, 191, 0.1);
+    border: 2px solid rgba(45, 212, 191, 0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #2dd4bf;
+    z-index: 1;
+}
+
+.timeline-item.active .timeline-icon {
+    background: #2dd4bf;
+    color: #1a1e1e;
+}
+
+.timeline-item.completed .timeline-icon {
+    background: #4caf50;
+    border-color: #4caf50;
     color: #fff;
+}
+
+.timeline-content {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.timeline-item.active .timeline-content {
+    border-color: rgba(45, 212, 191, 0.3);
+    transform: translateX(10px);
+}
+
+.timeline-content h3 {
+    color: #2dd4bf;
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+}
+
+.timeline-content p {
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.agent-interactions-section {
+    margin-top: 3rem;
+}
+
+.agent-interactions-section h3 {
+    color: #2dd4bf;
+    margin-bottom: 1.5rem;
+}
+
+.agent-interactions {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.interaction-item {
+    margin-bottom: 1.5rem;
+}
+
+.interaction-item:last-child {
+    margin-bottom: 0;
+}
+
+.interaction-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.agent-name {
+    color: #2dd4bf;
+    font-weight: 500;
+}
+
+.interaction-time {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.9rem;
+}
+
+.interaction-content p {
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 1rem;
+}
+
+.interaction-output {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    padding: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.interaction-output pre {
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.9rem;
+    white-space: pre-wrap;
+}
+
+.research-header {
+    position: relative;
+    margin-bottom: 2rem;
+    padding-top: 25px;
+}
+
+.research-header .close-modal {
+    position: absolute;
+    top: -15px;
+    right: 0;
+    z-index: 1;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    position: relative;
+}
+
+.header-content h2 {
+    margin: 0;
+    flex-grow: 1;
+    color: #2dd4bf;
+}
+
+.header-content .status-badge {
+    margin-left: 1rem;
+}
+
+#viewDetailsStatus,
+#researchDetailsStatus {
+    background: rgba(245, 158, 11, 0.2) !important;
+    border: 1px solid rgba(245, 158, 11, 0.3) !important;
+    color: #f59e0b !important;
+}
+
+#viewDetailsStatus.in-progress,
+#researchDetailsStatus.in-progress {
+    background: rgba(245, 158, 11, 0.2) !important;
+    border: 1px solid rgba(245, 158, 11, 0.3) !important;
+    color: #f59e0b !important;
+}
+
+.delete-btn {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(220, 38, 38, 0.3);
+    color: #ef4444;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    transition: all 0.3s ease;
+    margin-top: 2rem;
+    display: flex;
+    margin-left: auto;
+}
+
+.delete-btn:hover {
+    background: rgba(220, 38, 38, 0.1);
+    border-color: rgba(220, 38, 38, 0.4);
+}
+
+/* Delete Confirmation Popup */
+.delete-confirmation {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 1100;
+}
+
+.delete-confirmation-content {
+    position: relative;
+    background: rgba(26, 30, 30, 0.95);
+    backdrop-filter: blur(12px);
+    margin: 15% auto;
+    padding: 2rem;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 12px;
+    border: 1px solid rgba(220, 38, 38, 0.2);
+    text-align: center;
+}
+
+.delete-confirmation h3 {
+    color: #ef4444;
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+}
+
+.delete-confirmation p {
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 2rem;
+}
+
+.delete-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.delete-actions button {
+    padding: 0.75rem 2rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    transition: all 0.3s ease;
+}
+
+.confirm-delete {
+    background: rgba(220, 38, 38, 0.1);
+    border: 1px solid rgba(220, 38, 38, 0.3);
+    color: #ef4444;
+}
+
+.confirm-delete:hover {
+    background: rgba(220, 38, 38, 0.2);
+}
+
+.cancel-delete {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.cancel-delete:hover {
+    background: rgba(255, 255, 255, 0.15);
 } 

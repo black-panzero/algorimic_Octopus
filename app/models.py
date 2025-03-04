@@ -16,7 +16,7 @@ class Research(models.Model):
     methodology = models.TextField()
     timeline = models.CharField(max_length=100)
     resources = models.TextField(blank=True)
-    hypotheses = models.JSONField()  # Store hypotheses as a JSON array
+    hypotheses = models.TextField(blank=True)  # Changed from JSONField to TextField
     status = models.CharField(max_length=20, default='in_progress')
     progress = models.IntegerField(default=0)  # Store progress as percentage
     created_at = models.DateTimeField(auto_now_add=True)
