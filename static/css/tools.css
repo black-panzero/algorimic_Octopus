@@ -379,39 +379,60 @@ body.tools-page .nav-item:hover {
 .modal {
     display: none;
     position: fixed;
-    top: 0;
+    z-index: 1000;
     left: 0;
+    top: 0;
     width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(8px);
-    z-index: 9999;
-    transition: opacity 0.3s ease;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    overflow: hidden;
+}
+
+.modal-content {
+    position: relative;
+    background: rgba(17, 24, 39, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    margin: 2vh auto;
+    max-width: 800px;
+    width: 90%;
+    max-height: 96vh;
+    padding: 20px;
+    box-shadow: 0 4px 32px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.modal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 10px;
+    margin-right: -10px;
+}
+
+.modal-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+.modal-body::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
 }
 
 .modal.show {
     display: block;
     opacity: 1;
-}
-
-.modal-content {
-    position: relative;
-    background: rgba(17, 24, 39, 0.95);
-    backdrop-filter: blur(12px);
-    margin: 2% auto;
-    padding: 2rem;
-    width: 90%;
-    max-width: 1000px;
-    border-radius: 16px;
-    border: 1px solid rgba(45, 212, 191, 0.2);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    transform: translateY(-20px);
-    transition: transform 0.3s ease;
-    color: #e5e7eb;
-}
-
-.modal.show .modal-content {
-    transform: translateY(0);
 }
 
 .modal-content h2 {
@@ -420,6 +441,7 @@ body.tools-page .nav-item:hover {
     color: #2dd4bf;
     margin-bottom: 1.5rem;
     padding-right: 2rem;
+    letter-spacing: 0.025em;
 }
 
 .modal-content h3 {
@@ -431,26 +453,27 @@ body.tools-page .nav-item:hover {
 
 .close-modal {
     position: absolute;
-    right: 1.5rem;
-    top: 1.5rem;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: rgba(255, 255, 255, 0.7);
-    transition: all 0.3s ease;
-    width: 32px;
-    height: 32px;
+    right: 2rem;
+    top: 2rem;
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .close-modal:hover {
+    background: rgba(255, 255, 255, 0.15);
     color: #fff;
-    background: rgba(255, 255, 255, 0.2);
     transform: rotate(90deg);
+    border-color: rgba(255, 255, 255, 0.2);
 }
 
 /* Modal Tabs Navigation */
@@ -666,4 +689,148 @@ body.tools-page .nav-item:hover {
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
+}
+
+/* Create Tool Form */
+.create-tool-form {
+    background: rgba(17, 24, 39, 0.4);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(45, 212, 191, 0.15);
+    border-radius: 16px;
+    padding: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    color: #2dd4bf;
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+    letter-spacing: 0.025em;
+}
+
+/* Target the actual class used in HTML */
+.form-input,
+#toolDescription {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(45, 212, 191, 0.2);
+    border-radius: 12px;
+    padding: 1rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    transition: all 0.3s ease;
+}
+
+.form-input:focus,
+#toolDescription:focus {
+    outline: none;
+    border-color: #2dd4bf;
+    box-shadow: 0 0 0 2px rgba(45, 212, 191, 0.1);
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.form-input::placeholder,
+#toolDescription::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+#toolDescription {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.format-select {
+    width: 100%;
+    max-width: 240px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(45, 212, 191, 0.2);
+    border-radius: 12px;
+    padding: 0.875rem 1rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.95rem;
+    appearance: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.format-select:hover {
+    background: rgba(0, 0, 0, 0.4);
+    border-color: rgba(45, 212, 191, 0.3);
+}
+
+.format-select:focus {
+    outline: none;
+    border-color: #2dd4bf;
+    box-shadow: 0 0 0 2px rgba(45, 212, 191, 0.1);
+}
+
+.code-editor {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(45, 212, 191, 0.2);
+    border-radius: 12px;
+    padding: 1.25rem;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
+    max-height: 300px;
+    overflow-y: auto;
+    transition: all 0.3s ease;
+    white-space: pre-wrap;
+}
+
+.code-editor:focus {
+    outline: none;
+    border-color: #2dd4bf;
+    box-shadow: 0 0 0 2px rgba(45, 212, 191, 0.1);
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.create-tool-btn {
+    background: linear-gradient(135deg, #2dd4bf 0%, #0ea5e9 100%);
+    color: #fff;
+    border: none;
+    padding: 0.875rem 2rem;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.025em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(45, 212, 191, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.create-tool-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(45, 212, 191, 0.25);
+    background: linear-gradient(135deg, #34d399 0%, #0ea5e9 100%);
+}
+
+/* Scrollbar Styling */
+.code-editor::-webkit-scrollbar {
+    width: 8px;
+}
+
+.code-editor::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+.code-editor::-webkit-scrollbar-thumb {
+    background: rgba(45, 212, 191, 0.3);
+    border-radius: 4px;
+}
+
+.code-editor::-webkit-scrollbar-thumb:hover {
+    background: rgba(45, 212, 191, 0.4);
 } 

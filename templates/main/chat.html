@@ -34,17 +34,6 @@
         color: var(--text-color);
     }
 
-    /* Adjust chat container width based on sidebar state */
-    .sidebar.collapsed ~ .main-content .chat-container {
-        width: 80%;
-        margin-left: calc(var(--sidebar-collapsed-width) / 2);
-    }
-
-    .sidebar ~ .main-content .chat-container {
-        width: 80%;
-        margin-left: calc(var(--sidebar-width) / 2);
-    }
-
     .chat-main {
         flex: 1;
         overflow-y: auto;

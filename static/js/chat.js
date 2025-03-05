@@ -1,3 +1,7 @@
+// Get avatar URLs
+const userAvatar = document.querySelector('.sidebar .user-avatar img')?.src || '/static/images/default-avatar.png';
+const aiAvatar = '/static/images/copilot-icon.png';
+
 // Generate a session ID
 const sessionId = crypto.randomUUID();
 document.getElementById('sessionId').textContent = sessionId;
@@ -6,31 +10,53 @@ document.getElementById('sessionId').textContent = sessionId;
 const messageInput = document.getElementById('messageInput');
 const sendButton = document.getElementById('sendButton');
 const chatMessages = document.getElementById('chatMessages');
-const metricsPanel = document.getElementById('metrics');
+const metricsPanel = document.querySelector('.metrics-side-panel');
+const metricsToggle = document.querySelector('.metrics-toggle');
+const metricsContent = document.querySelector('.metrics-content');
+const metrics = document.getElementById('metrics');
+
+// Initialize metrics panel state
+let isMetricsPanelExpanded = false;
+
+// Toggle metrics panel
+metricsToggle.addEventListener('click', () => {
+    isMetricsPanelExpanded = !isMetricsPanelExpanded;
+    metricsPanel.classList.toggle('expanded', isMetricsPanelExpanded);
+});
+
+// Function to create a new message element with avatar
+function createMessageElement(content, type) {
+    const template = document.getElementById('messageTemplate');
+    const message = template.content.cloneNode(true).querySelector('.message');
+    
+    // Use the original type-based classification
+    message.classList.add(`${type}-message`);
+    message.querySelector('.message-avatar img').src = type === 'assistant' ? aiAvatar : userAvatar;
+    message.querySelector('.message-content').textContent = content;
+    
+    return message;
+}
 
 function addMessage(content, type, metadata = {}) {
-    const messageDiv = document.createElement('div');
-    messageDiv.className = `message ${type}-message`;
-    
-    const messageBubble = document.createElement('div');
-    messageBubble.className = 'message-bubble';
-    messageBubble.textContent = content;
-    messageDiv.appendChild(messageBubble);
+    // Create message element using template with original type
+    const messageElement = createMessageElement(content, type);
+    chatMessages.appendChild(messageElement);
     
     // Add metadata if present
     if (Object.keys(metadata).length > 0) {
         const metadataDiv = document.createElement('div');
         metadataDiv.className = 'message-metadata';
         metadataDiv.textContent = `Source: ${metadata.source || 'Unknown'} | Type: ${metadata.type || 'Unknown'}`;
-        messageDiv.appendChild(metadataDiv);
+        messageElement.appendChild(metadataDiv);
     }
     
-    chatMessages.appendChild(messageDiv);
+    // Scroll to bottom
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
 function updateMetrics(metrics) {
-    metricsPanel.innerHTML = '';
+    const metricsContainer = document.getElementById('metrics');
+    metricsContainer.innerHTML = '';
     
     for (const [key, value] of Object.entries(metrics)) {
         if (typeof value === 'object') continue;
@@ -41,7 +67,12 @@ function updateMetrics(metrics) {
             <span class="metric-label">${key}:</span>
             <span class="metric-value">${value}</span>
         `;
-        metricsPanel.appendChild(metricDiv);
+        metricsContainer.appendChild(metricDiv);
+        
+        // Add animation class
+        metricDiv.classList.add('metric-update');
+        // Remove animation class after animation completes
+        setTimeout(() => metricDiv.classList.remove('metric-update'), 500);
     }
 }
 

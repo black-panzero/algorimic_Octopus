@@ -373,4 +373,83 @@ function switchCreateToolConfigFormat(format) {
     }
 
     configEditor.textContent = formattedConfig;
-} 
+}
+
+// Modal Functions
+function openModal(modalId) {
+    document.getElementById(modalId).style.display = 'block';
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModal(modalId) {
+    document.getElementById(modalId).style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+    if (event.target.classList.contains('modal')) {
+        event.target.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+}
+
+// Initialize the create tool form
+document.addEventListener('DOMContentLoaded', function() {
+    const createToolForm = document.querySelector('.create-tool-form');
+    const codeEditor = document.getElementById('toolConfig');
+    const configFormat = document.getElementById('configFormat');
+
+    // Update configuration format when changed
+    configFormat.addEventListener('change', function() {
+        const format = this.value;
+        if (format === 'json') {
+            codeEditor.textContent = JSON.stringify({
+                name: document.getElementById('toolName').value || "New Tool",
+                description: document.getElementById('toolDescription').value || "Tool description",
+                category: document.getElementById('toolCategory').value || "llm",
+                capabilities: [],
+                parameters: {}
+            }, null, 2);
+        } else {
+            codeEditor.textContent = `def tool_config():
+    return {
+        "name": "${document.getElementById('toolName').value || 'New Tool'}",
+        "description": "${document.getElementById('toolDescription').value || 'Tool description'}",
+        "category": "${document.getElementById('toolCategory').value || 'llm'}",
+        "capabilities": [],
+        "parameters": {}
+    }`;
+        }
+    });
+
+    // Handle form submission
+    createToolForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Get form values
+        const toolData = {
+            name: document.getElementById('toolName').value,
+            description: document.getElementById('toolDescription').value,
+            category: document.getElementById('toolCategory').value,
+            config: codeEditor.textContent,
+            format: configFormat.value
+        };
+
+        // Here you would typically send the data to your backend
+        console.log('Tool data:', toolData);
+        
+        // Close the modal
+        closeModal('createToolModal');
+        
+        // Reset form
+        this.reset();
+        codeEditor.textContent = JSON.stringify({
+            name: "New Tool",
+            description: "Tool description",
+            category: "llm",
+            capabilities: [],
+            parameters: {}
+        }, null, 2);
+    });
+}); 

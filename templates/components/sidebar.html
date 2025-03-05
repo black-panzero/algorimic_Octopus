@@ -1,0 +1,61 @@
+{% load static %}
+<!-- Sidebar -->
+<aside class="sidebar">
+    <div class="sidebar-header">
+        <a href="/" class="logo">
+            <img src="{% static 'images/logo2.png' %}" alt="Logo" class="logo-icon">
+            <span class="logo-text">Algorimic</span>
+        </a>
+    </div>
+    <nav class="nav-items">
+        <a href="{% url 'dashboard' %}" class="nav-item {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+            <i class="fas fa-chart-line"></i>
+            <span>Dashboard</span>
+        </a>
+        <a href="{% url 'research' %}" class="nav-item {% if request.resolver_match.url_name == 'research' %}active{% endif %}">
+            <i class="fas fa-microscope"></i>
+            <span>Research</span>
+        </a>
+        <a href="{% url 'chat' %}" class="nav-item {% if request.resolver_match.url_name == 'chat' %}active{% endif %}">
+            <i class="fas fa-comments"></i>
+            <span>Chat</span>
+        </a>
+        <a href="{% url 'agents' %}" class="nav-item {% if request.resolver_match.url_name == 'agents' %}active{% endif %}">
+            <i class="fas fa-robot"></i>
+            <span>Agents</span>
+        </a>
+        <a href="{% url 'tools' %}" class="nav-item {% if request.resolver_match.url_name == 'tools' %}active{% endif %}">
+            <i class="fas fa-tools"></i>
+            <span>Tools</span>
+        </a>
+        <a href="{% url 'settings' %}" class="nav-item {% if request.resolver_match.url_name == 'settings' %}active{% endif %}">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+        </a>
+    </nav>
+    
+    <div class="sidebar-footer">
+        <div class="toggle-button-container">
+            <button class="toggle-sidebar">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+        </div>
+        
+        <!-- User profile at bottom of sidebar -->
+        <div class="user-profile">
+            <div class="user-info-container">
+                <div class="user-avatar">
+                    <img src="https://ui-avatars.com/api/?name={{ request.user.username }}&background=2DD4BF&color=1A1E1E&bold=true" alt="{{ request.user.username }} Avatar">
+                </div>
+                <div class="user-info">
+                    <div class="user-name">{{ request.user.username }}</div>
+                    <div class="user-role">{% if request.user.is_staff %}Admin{% else %}User{% endif %}</div>
+                </div>
+            </div>
+            <a href="{% url 'logout' %}" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </a>
+        </div>
+    </div>
+</aside> 

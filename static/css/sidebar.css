@@ -1,0 +1,230 @@
+/* Sidebar Variables */
+:root {
+    --sidebar-width: 280px;
+    --sidebar-collapsed-width: 80px;
+    --sidebar-bg: rgba(26, 30, 30, 0.95);
+    --sidebar-hover: rgba(44, 51, 51, 0.95);
+    --accent-color: #2DD4BF;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: var(--sidebar-width);
+    background: var(--sidebar-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: white;
+    transition: width 0.3s ease;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar.collapsed {
+    width: var(--sidebar-collapsed-width);
+}
+
+/* Sidebar Header */
+.sidebar-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    color: white;
+}
+
+.logo-icon {
+    width: 32px;
+    height: 32px;
+}
+
+.logo-text {
+    font-size: 1.25rem;
+    font-weight: 600;
+    transition: opacity 0.3s ease;
+}
+
+.sidebar.collapsed .logo-text {
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+}
+
+/* Navigation Items */
+.nav-items {
+    padding: 1rem 0;
+    flex-grow: 1;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    color: white;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    gap: 1rem;
+}
+
+.nav-item:hover {
+    background-color: var(--sidebar-hover);
+}
+
+.nav-item.active {
+    background-color: var(--accent-color);
+}
+
+.nav-item i {
+    font-size: 1.25rem;
+    width: 24px;
+    text-align: center;
+}
+
+.nav-item span {
+    transition: opacity 0.3s ease;
+}
+
+.sidebar.collapsed .nav-item span {
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+}
+
+/* Sidebar Footer */
+.sidebar-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+}
+
+.toggle-button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1rem;
+}
+
+.toggle-sidebar {
+    background: none !important;
+    border: none !important;
+    color: white;
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: all 0.3s ease;
+    box-shadow: none !important;
+}
+
+.toggle-sidebar:hover {
+    color: var(--accent-color);
+    transform: scale(1.1);
+    background: none !important;
+    box-shadow: none !important;
+}
+
+/* Remove the rotation transforms */
+.sidebar.collapsed .toggle-sidebar {
+    /* transform: rotate(180deg); - removing this */
+}
+
+.sidebar.collapsed .toggle-sidebar:hover {
+    color: var(--accent-color);
+    transform: scale(1.1);
+    background: none !important;
+    box-shadow: none !important;
+}
+
+/* User Profile */
+.user-profile {
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+}
+
+.user-info-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.user-info {
+    transition: opacity 0.3s ease;
+}
+
+.sidebar.collapsed .user-info {
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+}
+
+.user-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.user-role {
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
+
+.logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.logout-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar.collapsed .logout-btn span {
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+}
+
+/* Main Content Adjustments */
+.main-content {
+    margin-left: var(--sidebar-width);
+    transition: margin-left 0.3s ease;
+}
+
+.sidebar.collapsed ~ .main-content {
+    margin-left: var(--sidebar-collapsed-width);
+}
+
+/* Chat Container Adjustments */
+.sidebar.collapsed ~ .main-content .chat-container {
+    width: 80%;
+    margin-left: calc(var(--sidebar-collapsed-width) / 2);
+}
+
+.sidebar ~ .main-content .chat-container {
+    width: 80%;
+    margin-left: calc(var(--sidebar-width) / 2);
+} 

@@ -166,35 +166,44 @@
 <!-- Create Tool Modal -->
 <div id="createToolModal" class="modal">
     <div class="modal-content">
-        <span class="close-modal">&times;</span>
+        <span class="close-modal" onclick="closeModal('createToolModal')">&times;</span>
         <h2>Create New Tool</h2>
-        <form class="create-tool-form">
-            <div class="form-group">
-                <label for="toolDescription">Tool Description</label>
-                <textarea id="toolDescription" rows="4" placeholder="Describe your tool's purpose and functionality..."></textarea>
-            </div>
-            <div class="form-group">
-                <label for="toolCategory">Category</label>
-                <select id="toolCategory" class="format-select">
-                    <option value="llm">LLM Tools</option>
-                    <option value="data">Data Processing</option>
-                    <option value="research">Research Tools</option>
-                    <option value="analysis">Analysis Tools</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="configFormat">Configuration Format</label>
-                <select id="configFormat" class="format-select">
-                    <option value="json">JSON</option>
-                    <option value="python">Python</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Configuration</label>
-                <div class="code-editor" contenteditable="true"></div>
-            </div>
-            <button type="submit" class="create-tool-btn">Create Tool</button>
-        </form>
+        <div class="modal-body">
+            <form class="create-tool-form">
+                <div class="form-group">
+                    <label for="toolName">Tool Name</label>
+                    <input type="text" id="toolName" class="form-input" placeholder="Enter tool name...">
+                </div>
+                <div class="form-group">
+                    <label for="toolDescription">Tool Description</label>
+                    <textarea id="toolDescription" rows="4" placeholder="Describe your tool's purpose and functionality..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="toolCategory">Category</label>
+                    <select id="toolCategory" class="format-select">
+                        <option value="llm">LLM Tools</option>
+                        <option value="data">Data Processing</option>
+                        <option value="research">Research Tools</option>
+                        <option value="analysis">Analysis Tools</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="configFormat">Configuration Format</label>
+                    <select id="configFormat" class="format-select">
+                        <option value="json">JSON</option>
+                        <option value="python">Python</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Configuration</label>
+                    <div class="code-editor" contenteditable="true" id="toolConfig">{ "name": "New Tool", "description": "Tool description", "category": "llm", "capabilities": [], "parameters": {} }</div>
+                </div>
+                <button type="submit" class="create-tool-btn">
+                    <i class="fas fa-plus"></i>
+                    Create Tool
+                </button>
+            </form>
+        </div>
     </div>
 </div>
 

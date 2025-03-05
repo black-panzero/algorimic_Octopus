@@ -4,7 +4,6 @@ __pycache__/
 *$py.class
 *.so
 .Python
-env/
 build/
 develop-eggs/
 dist/
@@ -21,15 +20,9 @@ wheels/
 .installed.cfg
 *.egg
 
-# Django
-*.log
-local_settings.py
-db.sqlite3
-db.sqlite3-journal
-media
-
 # Virtual Environment
 venv/
+env/
 ENV/
 
 # IDE
@@ -37,10 +30,28 @@ ENV/
 .vscode/
 *.swp
 *.swo
-.vs/
-*.pyproj
-*.pyproj.user
-*.sln
+
+# Django
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media/
+
+# Misc
+.DS_Store
+.env
+.env.local
+.env.*.local
+*.pyc
+staticfiles/
+
+# Node
+node_modules/
+npm-debug.log
+
+# Environment variables
+.env
 
 # Environment variables
 .env

@@ -6,71 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Algorimic{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     {% block extra_css %}{% endblock %}
 </head>
 <body class="{% block body_class %}{% endblock %}">
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <div class="sidebar-header">
-            <a href="/" class="logo">
-                <img src="{% static 'images/logo2.png' %}" alt="Logo" class="logo-icon">
-                <span class="logo-text">Algorimic</span>
-            </a>
-        </div>
-        <nav class="nav-items">
-            <a href="{% url 'dashboard' %}" class="nav-item {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
-                <i class="fas fa-chart-line"></i>
-                <span>Dashboard</span>
-            </a>
-            <a href="{% url 'research' %}" class="nav-item {% if request.resolver_match.url_name == 'research' %}active{% endif %}">
-                <i class="fas fa-microscope"></i>
-                <span>Research</span>
-            </a>
-            <a href="{% url 'chat' %}" class="nav-item {% if request.resolver_match.url_name == 'chat' %}active{% endif %}">
-                <i class="fas fa-comments"></i>
-                <span>Chat</span>
-            </a>
-            <a href="{% url 'agents' %}" class="nav-item {% if request.resolver_match.url_name == 'agents' %}active{% endif %}">
-                <i class="fas fa-robot"></i>
-                <span>Agents</span>
-            </a>
-            <a href="{% url 'tools' %}" class="nav-item {% if request.resolver_match.url_name == 'tools' %}active{% endif %}">
-                <i class="fas fa-tools"></i>
-                <span>Tools</span>
-            </a>
-            <a href="{% url 'settings' %}" class="nav-item {% if request.resolver_match.url_name == 'settings' %}active{% endif %}">
-                <i class="fas fa-cog"></i>
-                <span>Settings</span>
-            </a>
-        </nav>
-        
-        <div class="sidebar-footer">
-            <div class="toggle-button-container">
-                <button class="toggle-sidebar">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
-            </div>
-            
-            <!-- User profile at bottom of sidebar -->
-            <div class="user-profile">
-                <div class="user-info-container">
-                    <div class="user-avatar">
-                        <img src="https://ui-avatars.com/api/?name={{ request.user.username }}&background=2DD4BF&color=1A1E1E&bold=true" alt="{{ request.user.username }} Avatar">
-                    </div>
-                    <div class="user-info">
-                        <div class="user-name">{{ request.user.username }}</div>
-                        <div class="user-role">{% if request.user.is_staff %}Admin{% else %}User{% endif %}</div>
-                    </div>
-                </div>
-                <a href="{% url 'logout' %}" class="logout-btn">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Logout</span>
-                </a>
-            </div>
-        </div>
-    </aside>
+    {% include 'components/sidebar.html' %}
 
     <!-- Main Content -->
     <main class="main-content">
@@ -106,34 +48,10 @@
         </div>
     </div>
 
+    <script src="{% static 'js/sidebar.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+
     <script>
-        // Sidebar Toggle
-        const sidebar = document.querySelector('.sidebar');
-        const toggleBtn = document.querySelector('.toggle-sidebar');
-        const icon = toggleBtn.querySelector('i');
-
-        // Function to update icon and sidebar state
-        function updateSidebarState(isCollapsed) {
-            if (isCollapsed) {
-                icon.classList.remove('fa-chevron-left');
-                icon.classList.add('fa-chevron-right');
-                sidebar.classList.add('collapsed');
-            } else {
-                icon.classList.remove('fa-chevron-right');
-                icon.classList.add('fa-chevron-left');
-                sidebar.classList.remove('collapsed');
-            }
-        }
-
-        // Handle toggle button click
-        toggleBtn.addEventListener('click', function() {
-            const isCurrentlyCollapsed = sidebar.classList.contains('collapsed');
-            updateSidebarState(!isCurrentlyCollapsed);
-        });
-
-        // Initialize sidebar in collapsed state
-        updateSidebarState(true);
-
         // Chat Functionality
         const chatBubble = document.getElementById('chatBubble');
         const chatWindow = document.getElementById('chatWindow');
@@ -178,14 +96,8 @@
 
                 // Clear input
                 messageInput.value = '';
-
-                // Scroll to bottom
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-
-                // TODO: Send message to backend and handle response
             }
         }
     </script>
-    {% block extra_js %}{% endblock %}
 </body>
 </html> 

@@ -4,96 +4,28 @@
 {% block title %}Chat - Research Assistant{% endblock %}
 
 {% block extra_css %}
-<style>
-    /* Background image setup */
-    body {
-        background-image: linear-gradient(135deg, rgba(26, 30, 30, 0.7) 0%, rgba(44, 51, 51, 0.6) 100%), url('{% static "images/digital-transformation-corporate-wallpaper.jpg" %}');
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
-        background-repeat: no-repeat;
-    }
-
-    .chat-container {
-        max-width: 800px;
-        width: 90%;
-        height: 90vh;
-        margin: 0;
-        background: var(--glass-bg);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        border: 1px solid var(--glass-border);
-        border-radius: 16px;
-        display: flex;
-        flex-direction: column;
-        position: fixed;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        transition: all 0.3s ease;
-        color: var(--text-color);
-    }
-
-    /* Adjust chat container width based on sidebar state */
-    .sidebar.collapsed ~ .main-content .chat-container {
-        width: 80%;
-        margin-left: calc(var(--sidebar-collapsed-width) / 2);
-    }
-
-    .sidebar ~ .main-content .chat-container {
-        width: 80%;
-        margin-left: calc(var(--sidebar-width) / 2);
-    }
-
-    .chat-header {
-        padding: 1rem;
-        border-bottom: 1px solid var(--glass-border);
-    }
-
-    .metrics-panel {
-        padding: 1rem;
-        border-bottom: 1px solid var(--glass-border);
-        background: rgba(255, 255, 255, 0.1);
-    }
-
-    .chat-messages {
-        flex: 1;
-        overflow-y: auto;
-        padding: 1rem;
-    }
-
-    .message-input {
-        padding: 1rem;
-        border-top: 1px solid var(--glass-border);
-    }
-
-    .message-input textarea {
-        width: 100%;
-        background: rgba(255, 255, 255, 0.1);
-        border: 1px solid var(--glass-border);
-        color: var(--text-color);
-        padding: 0.5rem;
-        border-radius: 8px;
-        resize: none;
-    }
-
-    .message-input button {
-        background: var(--primary-color);
-        color: white;
-        border: none;
-        padding: 0.5rem 1rem;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: background 0.3s ease;
-    }
-
-    .message-input button:hover {
-        background: var(--primary-color-hover);
-    }
-</style>
+<link rel="stylesheet" href="{% static 'css/chat.css' %}">
 {% endblock %}
 
 {% block content %}
+<!-- System Metrics Side Panel -->
+<div class="metrics-side-panel">
+    <div class="metrics-header">
+        <h2 class="text-lg font-semibold">System Metrics</h2>
+        <button class="metrics-toggle" aria-label="Toggle Metrics">
+            <svg class="metrics-toggle-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M6 9l6 6 6-6"/>
+            </svg>
+        </button>
+    </div>
+    <div class="metrics-content">
+        <div class="grid grid-cols-1 gap-4 text-sm" id="metrics">
+            <!-- Metrics will be populated here -->
+        </div>
+    </div>
+</div>
+
+<!-- Main Chat Container (Centered) -->
 <div class="chat-container">
     <!-- Chat Header -->
     <div class="chat-header">
@@ -103,17 +35,19 @@
         </div>
     </div>
     
-    <!-- System Metrics -->
-    <div class="metrics-panel" id="metricsPanel">
-        <h2 class="text-lg font-semibold mb-2">System Metrics</h2>
-        <div class="grid grid-cols-2 gap-4 text-sm" id="metrics">
-            <!-- Metrics will be populated here -->
-        </div>
-    </div>
-    
     <!-- Chat Messages -->
     <div class="chat-messages" id="chatMessages">
-        <!-- Messages will be populated here -->
+        <!-- Message Template -->
+        <template id="messageTemplate">
+            <div class="message">
+                <div class="message-avatar">
+                    <img src="" alt="Avatar">
+                </div>
+                <div class="message-content">
+                    <!-- Message text will be inserted here -->
+                </div>
+            </div>
+        </template>
     </div>
     
     <!-- Message Input -->
