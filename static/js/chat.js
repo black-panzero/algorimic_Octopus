@@ -1,6 +1,6 @@
 // Get avatar URLs
 const userAvatar = document.querySelector('.sidebar .user-avatar img')?.src || '/static/images/default-avatar.png';
-const aiAvatar = '/static/images/copilot-icon.png';
+const aiAvatar = '/static/images/assistant-avatar.png';
 
 // Generate a session ID
 const sessionId = crypto.randomUUID();

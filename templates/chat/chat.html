@@ -41,7 +41,7 @@
         <template id="messageTemplate">
             <div class="message">
                 <div class="message-avatar">
-                    <img src="" alt="Avatar">
+                    <img src="{% static 'images/assistant-avatar.png' %}" alt="AI Avatar">
                 </div>
                 <div class="message-content">
                     <!-- Message text will be inserted here -->
@@ -65,5 +65,5 @@
     </div>
 </div>
 
-<script src="{% static 'js/chat.js' %}"></script>
+<script src="{% static 'js/chat.js' %}?v=1"></script>
 {% endblock %} 
